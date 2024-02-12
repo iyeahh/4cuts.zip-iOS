@@ -13,6 +13,7 @@
 		76D372022C6C98F30066AB0A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76D372012C6C98F30066AB0A /* Assets.xcassets */; };
 		76D372052C6C98F30066AB0A /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 76D372042C6C98F30066AB0A /* Base */; };
 		76D3720D2C6C9A220066AB0A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 76D3720C2C6C9A220066AB0A /* .gitignore */; };
+		76D3720F2C6C9A770066AB0A /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D3720E2C6C9A770066AB0A /* APIKey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		76D372042C6C98F30066AB0A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		76D372062C6C98F30066AB0A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		76D3720C2C6C9A220066AB0A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		76D3720E2C6C9A770066AB0A /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				76D372012C6C98F30066AB0A /* Assets.xcassets */,
 				76D372032C6C98F30066AB0A /* LaunchScreen.storyboard */,
 				76D372062C6C98F30066AB0A /* Info.plist */,
+				76D3720E2C6C9A770066AB0A /* APIKey.swift */,
 			);
 			path = 4cut.zip;
 			sourceTree = "<group>";
@@ -140,6 +143,7 @@
 			files = (
 				76D371FD2C6C98F20066AB0A /* ViewController.swift in Sources */,
 				76D371F92C6C98F20066AB0A /* AppDelegate.swift in Sources */,
+				76D3720F2C6C9A770066AB0A /* APIKey.swift in Sources */,
 				76D371FB2C6C98F20066AB0A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
