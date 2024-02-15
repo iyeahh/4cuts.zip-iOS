@@ -7,6 +7,12 @@
 
 import Foundation
 import Alamofire
+import RxSwift
+
+enum NetworkError: Error {
+    case invaildURL
+    case unknownResponse
+}
 
 final class NetworkManager {
     
@@ -14,25 +20,30 @@ final class NetworkManager {
 
     private init() { }
 
-    func createLogin(email: String, password: String) {
+    func createLogin(email: String, password: String) -> Single<Result<LoginModel, NetworkError>> {
+        return Single.create { observer -> Disposable in
+            var request: URLRequest
+
             do {
                 let query = LoginQuery(email: email, password: password)
-                let request = try Router.login(query: query).asURLRequest()
+                request = try Router.login(query: query).asURLRequest()
+            } catch {
+                observer(.success(.failure(.invaildURL)))
+                return Disposables.create()
+            }
 
-                AF.request(request)
+            AF.request(request)
+                .validate(statusCode: 200..<300)
                 .responseDecodable(of: LoginModel.self) { response in
                     switch response.result {
-                    case .success(let success):
-                        print("Login OK", success)
-                        UserDefaultsManager.token = success.access
-                        UserDefaultsManager.refreshToken = success.refresh
-                    case .failure(let failure):
-                        print("Login Fail", failure)
+                    case .success(let value):
+                        observer(.success(.success(value)))
+                    case .failure(let error):
+                        observer(.success(.failure(.unknownResponse)))
                     }
                 }
-            } catch {
-                print(error)
-            }
+            return Disposables.create()
         }
+    }
 
 }

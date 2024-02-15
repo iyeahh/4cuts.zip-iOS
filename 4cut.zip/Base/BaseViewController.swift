@@ -14,11 +14,13 @@ class BaseViewController: UIViewController {
         configureHierarchy()
         configureLayout()
         configureView()
+        bind()
     }
 
     func configureHierarchy() { }
     func configureLayout() { }
     func configureView() { }
-    
+    func bind() { }
+
 }
 

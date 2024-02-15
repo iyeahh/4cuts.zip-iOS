@@ -7,9 +7,14 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
 final class LoginViewController: BaseViewController {
-    
+
+    let viewModel = LoginViewModel()
+    let disposeBag = DisposeBag()
+
     let emailTextField = BlackBorderTextField(placeholderText: Constant.Login.emailPlaceholder)
     let emailDescriptionLabel = RedColorLabel()
     let passwordTextField = BlackBorderTextField(placeholderText: Constant.Login.passwordPlaceholder)
@@ -56,6 +61,24 @@ final class LoginViewController: BaseViewController {
             make.top.equalTo(passwordTextField.snp.bottom).offset(30)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
+    }
+
+    override func bind() {
+        let input = LoginViewModel.Input(emailTextFieldText: emailTextField.rx.text.orEmpty,
+                                         passwordTextFieldText: passwordTextField.rx.text.orEmpty,
+                                         signInButtonTap: signInButton.rx.tap)
+
+        let output = viewModel.transform(input: input)
+
+        output.validLogin
+            .bind(with: self) { owner, _ in
+                let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+                let sceneDelegate = windowScene?.delegate as? SceneDelegate
+                let rootVC = UINavigationController(rootViewController: SuggestionViewController())
+                sceneDelegate?.window?.rootViewController = rootVC
+                sceneDelegate?.window?.makeKeyAndVisible()
+            }
+            .disposed(by: disposeBag)
     }
 
 }
