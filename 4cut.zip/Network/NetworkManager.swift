@@ -38,7 +38,7 @@ final class NetworkManager {
                     switch response.result {
                     case .success(let value):
                         observer(.success(.success(value)))
-                    case .failure(let error):
+                    case .failure:
                         observer(.success(.failure(.unknownResponse)))
                     }
                 }

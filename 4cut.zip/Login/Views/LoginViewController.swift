@@ -74,7 +74,7 @@ final class LoginViewController: BaseViewController {
             .bind(with: self) { owner, _ in
                 let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
                 let sceneDelegate = windowScene?.delegate as? SceneDelegate
-                let rootVC = UINavigationController(rootViewController: SuggestionViewController())
+                let rootVC = TabBarViewController()
                 sceneDelegate?.window?.rootViewController = rootVC
                 sceneDelegate?.window?.makeKeyAndVisible()
             }

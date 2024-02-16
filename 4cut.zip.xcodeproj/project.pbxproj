@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		76BDB0E72C7AF97700C43955 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BDB0E62C7AF97700C43955 /* TabBar.swift */; };
+		76BDB0E92C7AF98400C43955 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BDB0E82C7AF98400C43955 /* TabBarViewController.swift */; };
+		76BDB0ED2C7AFA4400C43955 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BDB0EC2C7AFA4400C43955 /* CollectionViewController.swift */; };
+		76BDB0EF2C7AFA5B00C43955 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BDB0EE2C7AFA5B00C43955 /* ProfileViewController.swift */; };
 		76D371F92C6C98F20066AB0A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D371F82C6C98F20066AB0A /* AppDelegate.swift */; };
 		76D371FB2C6C98F20066AB0A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D371FA2C6C98F20066AB0A /* SceneDelegate.swift */; };
 		76D372022C6C98F30066AB0A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76D372012C6C98F30066AB0A /* Assets.xcassets */; };
@@ -36,6 +40,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		76BDB0E62C7AF97700C43955 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
+		76BDB0E82C7AF98400C43955 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		76BDB0EC2C7AFA4400C43955 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
+		76BDB0EE2C7AFA5B00C43955 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		76D371F52C6C98F20066AB0A /* 4cut.zip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 4cut.zip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76D371F82C6C98F20066AB0A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		76D371FA2C6C98F20066AB0A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -77,6 +85,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		76BDB0E52C7AF90F00C43955 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				76BDB0E62C7AF97700C43955 /* TabBar.swift */,
+				76BDB0E82C7AF98400C43955 /* TabBarViewController.swift */,
+				76D60B0B2C786E34008293D4 /* Suggestion */,
+				76BDB0EA2C7AF9B500C43955 /* Collection */,
+				76BDB0EB2C7AFA3000C43955 /* Profile */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		76BDB0EA2C7AF9B500C43955 /* Collection */ = {
+			isa = PBXGroup;
+			children = (
+				76BDB0EC2C7AFA4400C43955 /* CollectionViewController.swift */,
+			);
+			path = Collection;
+			sourceTree = "<group>";
+		};
+		76BDB0EB2C7AFA3000C43955 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				76BDB0EE2C7AFA5B00C43955 /* ProfileViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		76D371EC2C6C98F20066AB0A = {
 			isa = PBXGroup;
 			children = (
@@ -108,7 +144,7 @@
 				76D60AF22C78373F008293D4 /* RequestModel */,
 				76D60AF72C784164008293D4 /* ResponseModel */,
 				76D60AD42C782DE6008293D4 /* Login */,
-				76D60B0B2C786E34008293D4 /* Suggestion */,
+				76BDB0E52C7AF90F00C43955 /* TabBar */,
 				76D372012C6C98F30066AB0A /* Assets.xcassets */,
 				76D372032C6C98F30066AB0A /* LaunchScreen.storyboard */,
 				76D372062C6C98F30066AB0A /* Info.plist */,
@@ -303,15 +339,19 @@
 				76D60AFB2C7842B5008293D4 /* UserDefaultsManager.swift in Sources */,
 				76D60AF42C783752008293D4 /* LoginQuery.swift in Sources */,
 				76D60AD62C782E15008293D4 /* LoginViewController.swift in Sources */,
+				76BDB0ED2C7AFA4400C43955 /* CollectionViewController.swift in Sources */,
 				76D60B0D2C786E8F008293D4 /* SuggestionViewController.swift in Sources */,
 				76D60ADC2C782F03008293D4 /* BlackBorderTextField.swift in Sources */,
 				76D60AFF2C7846F8008293D4 /* LoginViewModel.swift in Sources */,
 				76D371FB2C6C98F20066AB0A /* SceneDelegate.swift in Sources */,
+				76BDB0EF2C7AFA5B00C43955 /* ProfileViewController.swift in Sources */,
 				76D60AF92C784173008293D4 /* LoginModel.swift in Sources */,
 				76D60AF62C784118008293D4 /* NetworkManager.swift in Sources */,
 				76D60AE72C78323C008293D4 /* RedColorLabel.swift in Sources */,
 				76D60AD92C782E2B008293D4 /* BaseViewController.swift in Sources */,
+				76BDB0E92C7AF98400C43955 /* TabBarViewController.swift in Sources */,
 				76D60ADE2C782F60008293D4 /* BlackBackgroundButton.swift in Sources */,
+				76BDB0E72C7AF97700C43955 /* TabBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
