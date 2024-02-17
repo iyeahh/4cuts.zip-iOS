@@ -23,6 +23,17 @@ enum TabBar: String, CaseIterable {
         }
     }
 
+    var title: String {
+        switch self {
+        case .collection:
+            return "모아보기"
+        case .suggestion:
+            return "추천"
+        case .profile:
+            return "프로필"
+        }
+    }
+
     var controller: UIViewController {
         switch self {
         case .collection:

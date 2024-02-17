@@ -23,6 +23,8 @@ final class LoginViewController: BaseViewController {
 
     override func configureView() {
         view.backgroundColor = .white
+        emailTextField.text = "iyeah@iyeah.com"
+        passwordTextField.text = "1234"
     }
 
     override func configureHierarchy() {

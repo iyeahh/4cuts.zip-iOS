@@ -13,6 +13,7 @@ final class TabBarViewController: UITabBarController {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureTabBar()
+        configureAppearance()
     }
 
     private func configureTabBar() {
@@ -20,11 +21,17 @@ final class TabBarViewController: UITabBarController {
 
         TabBar.allCases.forEach { tabBar in
             let vc = UINavigationController(rootViewController: tabBar.controller)
-            vc.tabBarItem = UITabBarItem(title: "", image: tabBar.image, tag: 0)
+            vc.tabBarItem = UITabBarItem(title: tabBar.title, image: tabBar.image, tag: 0)
             viewControllers.append(vc)
         }
 
         setViewControllers(viewControllers, animated: true)
+    }
+
+    private func configureAppearance() {
+        UITabBar.appearance().backgroundColor = Constant.Color.secondaryPink
+        UITabBar.appearance().unselectedItemTintColor = .gray
+        UITabBar.appearance().tintColor = Constant.Color.accent
     }
 
 }
