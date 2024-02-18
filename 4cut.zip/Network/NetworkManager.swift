@@ -33,7 +33,6 @@ final class NetworkManager {
             }
 
             AF.request(request)
-                .validate(statusCode: 200..<300)
                 .responseDecodable(of: LoginModel.self) { response in
                     switch response.result {
                     case .success(let value):
@@ -43,6 +42,60 @@ final class NetworkManager {
                     }
                 }
             return Disposables.create()
+        }
+    }
+
+    func fetchPostContent(category: PostCategory) -> Single<Result<PostContentModel, NetworkError>> {
+        return Single.create { observer -> Disposable in
+            var request: URLRequest
+
+            do {
+                request = try Router.fetchPostContent(category: category).asURLRequest()
+            } catch {
+                observer(.success(.failure(.invaildURL)))
+                return Disposables.create()
+            }
+
+            AF.request(request)
+                .responseDecodable(of: PostContentModel.self) { [weak self] response in
+                    if response.response?.statusCode == 419 {
+                        guard let self else { return }
+                        print("리프레시 토큰 개시")
+                        refreshToken()
+                    }
+                    switch response.result {
+                    case .success(let value):
+                        observer(.success(.success(value)))
+                    case .failure:
+                        observer(.success(.failure(.unknownResponse)))
+                    }
+                }
+            return Disposables.create()
+        }
+    }
+
+    func refreshToken() {
+        do {
+            let request = try Router.refresh.asURLRequest()
+
+            AF.request(request)
+                .responseDecodable(of: RefreshModel.self) { response in
+                    if response.response?.statusCode == 418 {
+                        // rootViewController를 LoginViewController 전환
+                        UserDefaultsManager.removeAll()
+                    } else {
+                        switch response.result {
+                        case .success(let success):
+                            print("리프레시 토큰 성공")
+                            UserDefaultsManager.token = success.accessToken
+                            // fetchProfile()
+                        case .failure:
+                            print("리프레시 토큰 실패")
+                        }
+                    }
+                }
+        } catch {
+            print("리프레시 토큰 invaildURL")
         }
     }
 

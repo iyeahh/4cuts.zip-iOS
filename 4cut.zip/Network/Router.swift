@@ -10,6 +10,8 @@ import Alamofire
 
 enum Router {
     case login(query: LoginQuery)
+    case fetchPostContent(category: PostCategory)
+    case refresh
 }
 
 extension Router: TargetType {
@@ -17,6 +19,8 @@ extension Router: TargetType {
         switch self {
         case .login:
             return .post
+        case .fetchPostContent, .refresh:
+            return .get
         }
     }
 
@@ -25,7 +29,12 @@ extension Router: TargetType {
     }
 
     var queryItems: [URLQueryItem]? {
-        return nil
+        switch self {
+        case .login, .refresh:
+            return nil
+        case .fetchPostContent(let category):
+            return [URLQueryItem(name: "product_id", value: category.productId)]
+        }
     }
 
     var body: Data? {
@@ -33,6 +42,8 @@ extension Router: TargetType {
         case .login(let query):
             let encoder = JSONEncoder()
             return try? encoder.encode(query)
+        case .fetchPostContent, .refresh:
+            return nil
         }
     }
 
@@ -44,6 +55,10 @@ extension Router: TargetType {
         switch self {
         case .login:
             return "/users/login"
+        case .fetchPostContent:
+            return "/posts"
+        case .refresh:
+            return "/auth/refresh"
         }
     }
 
@@ -52,6 +67,19 @@ extension Router: TargetType {
         case .login:
             return [
                 Header.contentType.rawValue: Header.json.rawValue,
+                Header.sesacKey.rawValue: APIKey.sesacKey
+            ]
+        case .fetchPostContent:
+            return [
+                Header.contentType.rawValue: Header.json.rawValue,
+                Header.sesacKey.rawValue: APIKey.sesacKey,
+                Header.authorization.rawValue: UserDefaultsManager.token
+            ]
+        case .refresh:
+            return [
+                Header.authorization.rawValue: UserDefaultsManager.token,
+                Header.contentType.rawValue: Header.json.rawValue,
+                Header.refresh.rawValue: UserDefaultsManager.refreshToken,
                 Header.sesacKey.rawValue: APIKey.sesacKey
             ]
         }

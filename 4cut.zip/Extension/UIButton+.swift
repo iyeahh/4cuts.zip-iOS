@@ -15,7 +15,6 @@ extension UIButton.Configuration {
         configuration.titleAlignment = .center
         configuration.titlePadding = 20
         configuration.baseBackgroundColor = Constant.Color.secondaryLightPink
-        configuration.baseForegroundColor = .darkGray
         configuration.cornerStyle = .capsule
         return configuration
     }

@@ -6,7 +6,10 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 import SnapKit
+import Kingfisher
 
 final class SuggestionViewController: BaseViewController {
 
@@ -30,10 +33,15 @@ final class SuggestionViewController: BaseViewController {
 
     let tableView = UITableView()
 
+    let viewModel = SuggestionViewModel()
+    let disposeBag = DisposeBag()
+
     override func configureView() {
         view.backgroundColor = .white
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = TabBar.suggestion.rawValue
+        tableView.register(SuggestionTableViewCell.self, forCellReuseIdentifier: SuggestionTableViewCell.identifier)
+        tableView.rowHeight = 420
     }
 
     override func configureHierarchy() {
@@ -63,6 +71,32 @@ final class SuggestionViewController: BaseViewController {
             make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
             make.top.equalTo(newButton.snp.bottom).offset(5)
         }
+    }
+
+    override func bind() {
+        newButton.rx.tap
+            .bind { _ in
+                print("버튼 눌림", self.newButton.state)
+            }
+            .disposed(by: disposeBag)
+
+        let input = SuggestionViewModel.Input(categoryTap: BehaviorSubject(value: PostCategory.new))
+
+        let output = viewModel.transform(input: input)
+
+        output.postList
+            .bind(to: tableView.rx.items(cellIdentifier: SuggestionTableViewCell.identifier, cellType: SuggestionTableViewCell.self)) { (row, element, cell) in
+
+                KingfisherManager.shared.setHeaders()
+
+                cell.profileImageView.kf.setImage(with: element.creator.profileImage.url)
+                cell.nameLabel.text = element.creator.nick
+                cell.createDateLabel.text = DateFormatterManager.shared.dateFormat(element.createdAt)
+                cell.mainImageView.kf.setImage(with: element.files.first!.url)
+                cell.contentLabel.text = element.content
+                cell.commentCountLabel.text = "\(element.comments.count)"
+            }
+            .disposed(by: disposeBag)
     }
 
 }

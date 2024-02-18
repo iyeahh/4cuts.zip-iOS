@@ -33,4 +33,10 @@ enum UserDefaultsManager {
 
     @UserDefault(key: Key.refreshToken.rawValue, defaultValue: "리프레시 토큰 없음")
     static var refreshToken
+
+    static func removeAll() {
+        for key in UserDefaults.standard.dictionaryRepresentation().keys {
+            UserDefaults.standard.removeObject(forKey: key.description)
+        }
+    }
 }

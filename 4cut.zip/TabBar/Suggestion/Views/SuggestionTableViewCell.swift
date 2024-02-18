@@ -42,7 +42,7 @@ final class SuggestionTableViewCell: BaseTableViewCell {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 10
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
 
@@ -84,13 +84,6 @@ final class SuggestionTableViewCell: BaseTableViewCell {
         let views = [profileImageView, nameLabel, createDateLabel, followButton, mainImageView, contentLabel, likeButton, commentImageView, commentCountLabel]
 
         views.forEach { contentView.addSubview($0) }
-
-        profileImageView.backgroundColor = .gray
-        nameLabel.text = "iyeah"
-        createDateLabel.text = "2024년 8월 1일"
-        mainImageView.backgroundColor = .systemPink
-        contentLabel.text = "동해물과 백두산이 마르고 닳도록"
-        commentCountLabel.text = "2,303"
     }
 
     override func configureLayout() {
