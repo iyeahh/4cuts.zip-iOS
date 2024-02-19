@@ -16,6 +16,7 @@ final class SuggestionViewController: BaseViewController {
     let newButton = {
         let button = UIButton()
         button.configuration = .category(title: "New포토부스 ✨")
+        button.configuration?.baseForegroundColor = .darkGray
         return button
     }()
 
@@ -75,12 +76,41 @@ final class SuggestionViewController: BaseViewController {
 
     override func bind() {
         newButton.rx.tap
-            .bind { _ in
-                print("버튼 눌림", self.newButton.state)
+            .bind { [weak self] in
+                guard let self else { return }
+                newButton.configuration?.baseForegroundColor = .darkGray
+                backgroundButton.configuration?.baseForegroundColor = .white
+                poseButton.configuration?.baseForegroundColor = .white
             }
             .disposed(by: disposeBag)
 
-        let input = SuggestionViewModel.Input(categoryTap: BehaviorSubject(value: PostCategory.new))
+        backgroundButton.rx.tap
+            .bind { [weak self] in
+                guard let self else { return }
+                backgroundButton.configuration?.baseForegroundColor = .darkGray
+                newButton.configuration?.baseForegroundColor = .white
+                poseButton.configuration?.baseForegroundColor = .white
+            }
+            .disposed(by: disposeBag)
+
+        poseButton.rx.tap
+            .bind { [weak self] _ in
+                guard let self else { return }
+                poseButton.configuration?.baseForegroundColor = .darkGray
+                newButton.configuration?.baseForegroundColor = .white
+                backgroundButton.configuration?.baseForegroundColor = .white
+            }
+            .disposed(by: disposeBag)
+
+        let input = SuggestionViewModel.Input(
+            categoryTap: Observable.just(PostCategory.new),
+            newButtonTap: newButton.rx.tap
+                .withLatestFrom(Observable.just(PostCategory.new)),
+            backgroudButtonTap: backgroundButton.rx.tap
+                .withLatestFrom(Observable.just(PostCategory.background)),
+            poseButtonTap: poseButton.rx.tap
+                .withLatestFrom(Observable.just(PostCategory.pose))
+        )
 
         let output = viewModel.transform(input: input)
 
