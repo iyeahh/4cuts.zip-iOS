@@ -51,6 +51,7 @@
 		76F85F2C2C7C728000B98C2F /* DateFormatterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F85F2B2C7C728000B98C2F /* DateFormatterManager.swift */; };
 		76F85F2E2C7C7E8F00B98C2F /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F85F2D2C7C7E8F00B98C2F /* String+.swift */; };
 		76F85F322C7C820000B98C2F /* Kingfisher+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F85F312C7C820000B98C2F /* Kingfisher+.swift */; };
+		76F85F362C7CAB7D00B98C2F /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F85F352C7CAB7D00B98C2F /* Coordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,6 +96,7 @@
 		76F85F2B2C7C728000B98C2F /* DateFormatterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterManager.swift; sourceTree = "<group>"; };
 		76F85F2D2C7C7E8F00B98C2F /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		76F85F312C7C820000B98C2F /* Kingfisher+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kingfisher+.swift"; sourceTree = "<group>"; };
+		76F85F352C7CAB7D00B98C2F /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,6 +246,7 @@
 				76D60AE42C78302D008293D4 /* Constant.swift */,
 				76F85F2B2C7C728000B98C2F /* DateFormatterManager.swift */,
 				76D60AFA2C7842B5008293D4 /* UserDefaultsManager.swift */,
+				76F85F352C7CAB7D00B98C2F /* Coordinator.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -426,6 +429,7 @@
 				76D371FB2C6C98F20066AB0A /* SceneDelegate.swift in Sources */,
 				76F85F1E2C7C532F00B98C2F /* UIButton+.swift in Sources */,
 				76BDB0FB2C7B10C000C43955 /* UIView+.swift in Sources */,
+				76F85F362C7CAB7D00B98C2F /* Coordinator.swift in Sources */,
 				76BDB0EF2C7AFA5B00C43955 /* ProfileViewController.swift in Sources */,
 				76BDB0F12C7AFDD900C43955 /* BaseTableViewCell.swift in Sources */,
 				76BDB0F62C7AFE7F00C43955 /* SuggestionTableViewCell.swift in Sources */,

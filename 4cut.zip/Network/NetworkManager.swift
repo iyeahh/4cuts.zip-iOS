@@ -5,7 +5,7 @@
 //  Created by Bora Yang on 8/23/24.
 //
 
-import Foundation
+import UIKit
 import Alamofire
 import RxSwift
 
@@ -74,14 +74,15 @@ final class NetworkManager {
         }
     }
 
-    func refreshToken() {
+    private func refreshToken() {
         do {
             let request = try Router.refresh.asURLRequest()
 
             AF.request(request)
                 .responseDecodable(of: RefreshModel.self) { response in
                     if response.response?.statusCode == 418 {
-                        // rootViewController를 LoginViewController 전환
+                        print("리프레시 토큰 만료")
+                        Coordinator.moveRoot(vc: LoginViewController())
                         UserDefaultsManager.removeAll()
                     } else {
                         switch response.result {

@@ -73,13 +73,9 @@ final class LoginViewController: BaseViewController {
         let output = viewModel.transform(input: input)
 
         output.validLogin
-            .bind(with: self) { owner, _ in
-                let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-                let sceneDelegate = windowScene?.delegate as? SceneDelegate
-                let rootVC = TabBarViewController()
-                sceneDelegate?.window?.rootViewController = rootVC
-                sceneDelegate?.window?.makeKeyAndVisible()
-            }
+            .bind(onNext: { _ in
+                Coordinator.moveRoot(vc: TabBarViewController() as UIViewController)
+            })
             .disposed(by: disposeBag)
     }
 
