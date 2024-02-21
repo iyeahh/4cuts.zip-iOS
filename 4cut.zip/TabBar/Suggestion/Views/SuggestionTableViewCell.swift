@@ -78,6 +78,7 @@ final class SuggestionTableViewCell: BaseTableViewCell {
         super.layoutIfNeeded()
         profileImageView.layer.masksToBounds = true
         profileImageView.layer.cornerRadius = profileImageView.frame.width / 2
+        contentLabel.asColor()
     }
 
     override func configureHierarchy() {

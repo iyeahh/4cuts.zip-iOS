@@ -52,6 +52,7 @@
 		76F85F2E2C7C7E8F00B98C2F /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F85F2D2C7C7E8F00B98C2F /* String+.swift */; };
 		76F85F322C7C820000B98C2F /* Kingfisher+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F85F312C7C820000B98C2F /* Kingfisher+.swift */; };
 		76F85F362C7CAB7D00B98C2F /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F85F352C7CAB7D00B98C2F /* Coordinator.swift */; };
+		76F85F382C7CAE4900B98C2F /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F85F372C7CAE4900B98C2F /* UILabel+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,6 +98,7 @@
 		76F85F2D2C7C7E8F00B98C2F /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		76F85F312C7C820000B98C2F /* Kingfisher+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kingfisher+.swift"; sourceTree = "<group>"; };
 		76F85F352C7CAB7D00B98C2F /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		76F85F372C7CAE4900B98C2F /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +170,7 @@
 				76F85F1D2C7C532F00B98C2F /* UIButton+.swift */,
 				76F85F2D2C7C7E8F00B98C2F /* String+.swift */,
 				76F85F312C7C820000B98C2F /* Kingfisher+.swift */,
+				76F85F372C7CAE4900B98C2F /* UILabel+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -431,6 +434,7 @@
 				76BDB0FB2C7B10C000C43955 /* UIView+.swift in Sources */,
 				76F85F362C7CAB7D00B98C2F /* Coordinator.swift in Sources */,
 				76BDB0EF2C7AFA5B00C43955 /* ProfileViewController.swift in Sources */,
+				76F85F382C7CAE4900B98C2F /* UILabel+.swift in Sources */,
 				76BDB0F12C7AFDD900C43955 /* BaseTableViewCell.swift in Sources */,
 				76BDB0F62C7AFE7F00C43955 /* SuggestionTableViewCell.swift in Sources */,
 				76D60AF92C784173008293D4 /* LoginModel.swift in Sources */,
