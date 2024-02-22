@@ -115,7 +115,7 @@ final class SuggestionTableViewCell: BaseTableViewCell {
         }
 
         contentLabel.snp.makeConstraints { make in
-            make.leading.equalTo(contentView).inset(15)
+            make.leading.trailing.equalTo(contentView).inset(15)
             make.top.equalTo(mainImageView.snp.bottom).offset(15)
             make.height.equalTo(15)
         }

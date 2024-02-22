@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		769F8A7D2C7D91B4000360D9 /* PinterestCompostionalLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F8A7C2C7D91B4000360D9 /* PinterestCompostionalLayout.swift */; };
+		769F8A802C7DB091000360D9 /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F8A7F2C7DB091000360D9 /* PhotoModel.swift */; };
+		769F8A822C7DB150000360D9 /* PinterestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F8A812C7DB150000360D9 /* PinterestCollectionViewCell.swift */; };
+		769F8A842C7DB172000360D9 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F8A832C7DB172000360D9 /* BaseCollectionViewCell.swift */; };
+		769F8A862C7DB2E7000360D9 /* CollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F8A852C7DB2E7000360D9 /* CollectionViewModel.swift */; };
 		76BDB0E72C7AF97700C43955 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BDB0E62C7AF97700C43955 /* TabBar.swift */; };
 		76BDB0E92C7AF98400C43955 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BDB0E82C7AF98400C43955 /* TabBarViewController.swift */; };
 		76BDB0ED2C7AFA4400C43955 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BDB0EC2C7AFA4400C43955 /* CollectionViewController.swift */; };
@@ -56,6 +61,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		769F8A7C2C7D91B4000360D9 /* PinterestCompostionalLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinterestCompostionalLayout.swift; sourceTree = "<group>"; };
+		769F8A7F2C7DB091000360D9 /* PhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
+		769F8A812C7DB150000360D9 /* PinterestCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinterestCollectionViewCell.swift; sourceTree = "<group>"; };
+		769F8A832C7DB172000360D9 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
+		769F8A852C7DB2E7000360D9 /* CollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewModel.swift; sourceTree = "<group>"; };
 		76BDB0E62C7AF97700C43955 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		76BDB0E82C7AF98400C43955 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		76BDB0EC2C7AFA4400C43955 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +127,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		769F8A7A2C7D9170000360D9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				769F8A852C7DB2E7000360D9 /* CollectionViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		769F8A7B2C7D9198000360D9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				76BDB0EC2C7AFA4400C43955 /* CollectionViewController.swift */,
+				769F8A7C2C7D91B4000360D9 /* PinterestCompostionalLayout.swift */,
+				769F8A812C7DB150000360D9 /* PinterestCollectionViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		769F8A7E2C7DB081000360D9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				769F8A7F2C7DB091000360D9 /* PhotoModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		76BDB0E52C7AF90F00C43955 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -132,7 +168,9 @@
 		76BDB0EA2C7AF9B500C43955 /* Collection */ = {
 			isa = PBXGroup;
 			children = (
-				76BDB0EC2C7AFA4400C43955 /* CollectionViewController.swift */,
+				769F8A7E2C7DB081000360D9 /* Model */,
+				769F8A7B2C7D9198000360D9 /* Views */,
+				769F8A7A2C7D9170000360D9 /* ViewModel */,
 			);
 			path = Collection;
 			sourceTree = "<group>";
@@ -229,6 +267,7 @@
 			children = (
 				76D60AD82C782E2B008293D4 /* BaseViewController.swift */,
 				76BDB0F02C7AFDD900C43955 /* BaseTableViewCell.swift */,
+				769F8A832C7DB172000360D9 /* BaseCollectionViewCell.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -414,6 +453,7 @@
 				76F85F322C7C820000B98C2F /* Kingfisher+.swift in Sources */,
 				76D60AEA2C783525008293D4 /* TargetType.swift in Sources */,
 				76D371F92C6C98F20066AB0A /* AppDelegate.swift in Sources */,
+				769F8A862C7DB2E7000360D9 /* CollectionViewModel.swift in Sources */,
 				76F85F252C7C686F00B98C2F /* PostContentModel.swift in Sources */,
 				76D60AE52C78302D008293D4 /* Constant.swift in Sources */,
 				76D60AF12C7836C9008293D4 /* Header.swift in Sources */,
@@ -439,6 +479,7 @@
 				76BDB0F62C7AFE7F00C43955 /* SuggestionTableViewCell.swift in Sources */,
 				76D60AF92C784173008293D4 /* LoginModel.swift in Sources */,
 				76D60AF62C784118008293D4 /* NetworkManager.swift in Sources */,
+				769F8A842C7DB172000360D9 /* BaseCollectionViewCell.swift in Sources */,
 				76D60AE72C78323C008293D4 /* RedColorLabel.swift in Sources */,
 				76D60AD92C782E2B008293D4 /* BaseViewController.swift in Sources */,
 				76F85F272C7C6D9E00B98C2F /* RefreshModel.swift in Sources */,
@@ -446,8 +487,11 @@
 				76BDB0E92C7AF98400C43955 /* TabBarViewController.swift in Sources */,
 				76BDB0FD2C7B10F000C43955 /* ReuseIdentifierProtocol.swift in Sources */,
 				76F85F1C2C7C4F0E00B98C2F /* UIColor+.swift in Sources */,
+				769F8A802C7DB091000360D9 /* PhotoModel.swift in Sources */,
+				769F8A822C7DB150000360D9 /* PinterestCollectionViewCell.swift in Sources */,
 				76D60ADE2C782F60008293D4 /* BlackBackgroundButton.swift in Sources */,
 				76BDB0E72C7AF97700C43955 /* TabBar.swift in Sources */,
+				769F8A7D2C7D91B4000360D9 /* PinterestCompostionalLayout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -43,6 +43,7 @@ final class SuggestionViewController: BaseViewController {
         navigationItem.title = TabBar.suggestion.rawValue
         tableView.register(SuggestionTableViewCell.self, forCellReuseIdentifier: SuggestionTableViewCell.identifier)
         tableView.rowHeight = 420
+        tableView.separatorStyle = .none
     }
 
     override func configureHierarchy() {

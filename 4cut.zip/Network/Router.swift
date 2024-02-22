@@ -33,7 +33,8 @@ extension Router: TargetType {
         case .login, .refresh:
             return nil
         case .fetchPostContent(let category):
-            return [URLQueryItem(name: "product_id", value: category.productId)]
+            return [URLQueryItem(name: "product_id", value: category.productId),
+                    URLQueryItem(name: "limit", value: "10")]
         }
     }
 

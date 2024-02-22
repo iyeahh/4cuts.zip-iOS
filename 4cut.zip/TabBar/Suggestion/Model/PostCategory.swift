@@ -11,6 +11,7 @@ enum PostCategory {
     case new
     case background
     case pose
+    case photo
 
     var title: String {
         switch self {
@@ -20,6 +21,8 @@ enum PostCategory {
             return "배경/필터 🫧"
         case .pose:
             return "포즈 🫶🏻"
+        case .photo:
+            return ""
         }
     }
 
@@ -31,6 +34,8 @@ enum PostCategory {
             return "4cut_booth"
         case .pose:
             return "4cut_pose"
+        case .photo:
+            return "4cut_photo"
         }
     }
 }
