@@ -12,7 +12,7 @@ import Kingfisher
 
 final class CollectionViewModel: BaseViewModel {
 
-    var realModel: [PhotoModel] = [PhotoModel(photo: "dkdkdkd", astio: 0.5)]
+    var realModel: [PhotoModel] = [PhotoModel(photo: "dkdkdkd", aspect: 0.5)]
 
     let disposeBag = DisposeBag()
 
@@ -40,7 +40,7 @@ final class CollectionViewModel: BaseViewModel {
 
                     let _ = value.data.map({ photo in
                         self.loadImageAndGetSize(url: photo.files.first!.url!) { size in
-                            aarray.append(PhotoModel(photo: photo.files.first!, astio: (size?.width ?? 100) / (size?.height ?? 0)))
+                            aarray.append(PhotoModel(photo: photo.files.first!, aspect: (size?.width ?? 100) / (size?.height ?? 0)))
                             successData.accept(aarray)
                             self.realModel = aarray
                         }

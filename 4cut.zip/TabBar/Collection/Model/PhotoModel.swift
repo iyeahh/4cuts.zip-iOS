@@ -10,5 +10,5 @@ import Foundation
 struct PhotoModel: Hashable, Identifiable {
     let id = UUID()
     let photo: String
-    let astio: CGFloat
+    let aspect: CGFloat
 }

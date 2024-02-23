@@ -68,7 +68,8 @@ final class CollectionViewController: BaseViewController {
         }
 
         collectionView.snp.makeConstraints { make in
-            make.bottom.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.horizontalEdges.equalToSuperview().inset(10)
             make.top.equalTo(searchBar.snp.bottom)
         }
     }
@@ -83,7 +84,7 @@ final class CollectionViewController: BaseViewController {
                 interItemSpacing: 8,
                 contentInsetsReference: UIContentInsetsReference.automatic,
                 itemHeightProvider: { item, itemWidth in
-                    let aspect = models[item].astio
+                    let aspect = models[item].aspect
                     let result = (viewWidth / 3 / aspect) + 30
                     return result
                 },
