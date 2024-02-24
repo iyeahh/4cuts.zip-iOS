@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		76560CA52C7EE45600B0D7F2 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76560CA42C7EE45600B0D7F2 /* PostViewController.swift */; };
+		76560CA72C7EE45F00B0D7F2 /* ShoppingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76560CA62C7EE45F00B0D7F2 /* ShoppingViewController.swift */; };
 		769F8A7D2C7D91B4000360D9 /* PinterestCompostionalLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F8A7C2C7D91B4000360D9 /* PinterestCompostionalLayout.swift */; };
 		769F8A802C7DB091000360D9 /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F8A7F2C7DB091000360D9 /* PhotoModel.swift */; };
 		769F8A822C7DB150000360D9 /* PinterestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F8A812C7DB150000360D9 /* PinterestCollectionViewCell.swift */; };
@@ -61,6 +63,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		76560CA42C7EE45600B0D7F2 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		76560CA62C7EE45F00B0D7F2 /* ShoppingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingViewController.swift; sourceTree = "<group>"; };
 		769F8A7C2C7D91B4000360D9 /* PinterestCompostionalLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinterestCompostionalLayout.swift; sourceTree = "<group>"; };
 		769F8A7F2C7DB091000360D9 /* PhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
 		769F8A812C7DB150000360D9 /* PinterestCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinterestCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -127,6 +131,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		76560CA22C7EE43500B0D7F2 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				76560CA42C7EE45600B0D7F2 /* PostViewController.swift */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
+		76560CA32C7EE43800B0D7F2 /* Shopping */ = {
+			isa = PBXGroup;
+			children = (
+				76560CA62C7EE45F00B0D7F2 /* ShoppingViewController.swift */,
+			);
+			path = Shopping;
+			sourceTree = "<group>";
+		};
 		769F8A7A2C7D9170000360D9 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -160,6 +180,8 @@
 				76BDB0E82C7AF98400C43955 /* TabBarViewController.swift */,
 				76D60B0B2C786E34008293D4 /* Suggestion */,
 				76BDB0EA2C7AF9B500C43955 /* Collection */,
+				76560CA22C7EE43500B0D7F2 /* Post */,
+				76560CA32C7EE43800B0D7F2 /* Shopping */,
 				76BDB0EB2C7AFA3000C43955 /* Profile */,
 			);
 			path = TabBar;
@@ -468,6 +490,7 @@
 				76BDB0ED2C7AFA4400C43955 /* CollectionViewController.swift in Sources */,
 				76D60B0D2C786E8F008293D4 /* SuggestionViewController.swift in Sources */,
 				76D60ADC2C782F03008293D4 /* BlackBorderTextField.swift in Sources */,
+				76560CA72C7EE45F00B0D7F2 /* ShoppingViewController.swift in Sources */,
 				76D60AFF2C7846F8008293D4 /* LoginViewModel.swift in Sources */,
 				76D371FB2C6C98F20066AB0A /* SceneDelegate.swift in Sources */,
 				76F85F1E2C7C532F00B98C2F /* UIButton+.swift in Sources */,
@@ -481,6 +504,7 @@
 				76D60AF62C784118008293D4 /* NetworkManager.swift in Sources */,
 				769F8A842C7DB172000360D9 /* BaseCollectionViewCell.swift in Sources */,
 				76D60AE72C78323C008293D4 /* RedColorLabel.swift in Sources */,
+				76560CA52C7EE45600B0D7F2 /* PostViewController.swift in Sources */,
 				76D60AD92C782E2B008293D4 /* BaseViewController.swift in Sources */,
 				76F85F272C7C6D9E00B98C2F /* RefreshModel.swift in Sources */,
 				76F85F2C2C7C728000B98C2F /* DateFormatterManager.swift in Sources */,
