@@ -11,6 +11,7 @@ import Alamofire
 enum Router {
     case login(query: LoginQuery)
     case fetchPostContent(category: PostCategory)
+    case fetchShopping(query: String)
     case refresh
 }
 
@@ -19,7 +20,7 @@ extension Router: TargetType {
         switch self {
         case .login:
             return .post
-        case .fetchPostContent, .refresh:
+        case .fetchPostContent, .refresh, .fetchShopping:
             return .get
         }
     }
@@ -35,6 +36,8 @@ extension Router: TargetType {
         case .fetchPostContent(let category):
             return [URLQueryItem(name: "product_id", value: category.productId),
                     URLQueryItem(name: "limit", value: "10")]
+        case .fetchShopping(query: let query):
+            return [URLQueryItem(name: "query", value: query)]
         }
     }
 
@@ -43,13 +46,18 @@ extension Router: TargetType {
         case .login(let query):
             let encoder = JSONEncoder()
             return try? encoder.encode(query)
-        case .fetchPostContent, .refresh:
+        case .fetchPostContent, .refresh, .fetchShopping:
             return nil
         }
     }
 
     var baseURL: String {
-        return APIKey.baseURL + "v1"
+        switch self {
+        case .login, .refresh, .fetchPostContent:
+            return APIKey.baseURL + "v1"
+        case .fetchShopping(let query):
+            return APIKey.searchNaver + "v1"
+        }
     }
 
     var path: String {
@@ -60,6 +68,8 @@ extension Router: TargetType {
             return "/posts"
         case .refresh:
             return "/auth/refresh"
+        case .fetchShopping:
+            return "/search/shop.json?"
         }
     }
 
@@ -82,6 +92,11 @@ extension Router: TargetType {
                 Header.contentType.rawValue: Header.json.rawValue,
                 Header.refresh.rawValue: UserDefaultsManager.refreshToken,
                 Header.sesacKey.rawValue: APIKey.sesacKey
+            ]
+        case .fetchShopping(query: let query):
+            return [
+                Header.clientID.rawValue: APIKey.naverClientID,
+                Header.clientSceret.rawValue: APIKey.naverClientSecretKey
             ]
         }
     }

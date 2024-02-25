@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		76560CA52C7EE45600B0D7F2 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76560CA42C7EE45600B0D7F2 /* PostViewController.swift */; };
 		76560CA72C7EE45F00B0D7F2 /* ShoppingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76560CA62C7EE45F00B0D7F2 /* ShoppingViewController.swift */; };
+		76560CAB2C7EE5A400B0D7F2 /* ShoppingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76560CAA2C7EE5A400B0D7F2 /* ShoppingTableViewCell.swift */; };
+		76560CAD2C7EE61600B0D7F2 /* ShoppingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76560CAC2C7EE61600B0D7F2 /* ShoppingCollectionViewCell.swift */; };
+		76560CAF2C7EE94D00B0D7F2 /* ShoppingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76560CAE2C7EE94D00B0D7F2 /* ShoppingModel.swift */; };
+		76560CB12C7EEF0100B0D7F2 /* ShoppingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76560CB02C7EEF0100B0D7F2 /* ShoppingViewModel.swift */; };
 		769F8A7D2C7D91B4000360D9 /* PinterestCompostionalLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F8A7C2C7D91B4000360D9 /* PinterestCompostionalLayout.swift */; };
 		769F8A802C7DB091000360D9 /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F8A7F2C7DB091000360D9 /* PhotoModel.swift */; };
 		769F8A822C7DB150000360D9 /* PinterestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F8A812C7DB150000360D9 /* PinterestCollectionViewCell.swift */; };
@@ -65,6 +69,10 @@
 /* Begin PBXFileReference section */
 		76560CA42C7EE45600B0D7F2 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		76560CA62C7EE45F00B0D7F2 /* ShoppingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingViewController.swift; sourceTree = "<group>"; };
+		76560CAA2C7EE5A400B0D7F2 /* ShoppingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingTableViewCell.swift; sourceTree = "<group>"; };
+		76560CAC2C7EE61600B0D7F2 /* ShoppingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCollectionViewCell.swift; sourceTree = "<group>"; };
+		76560CAE2C7EE94D00B0D7F2 /* ShoppingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingModel.swift; sourceTree = "<group>"; };
+		76560CB02C7EEF0100B0D7F2 /* ShoppingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingViewModel.swift; sourceTree = "<group>"; };
 		769F8A7C2C7D91B4000360D9 /* PinterestCompostionalLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinterestCompostionalLayout.swift; sourceTree = "<group>"; };
 		769F8A7F2C7DB091000360D9 /* PhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
 		769F8A812C7DB150000360D9 /* PinterestCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinterestCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -142,9 +150,28 @@
 		76560CA32C7EE43800B0D7F2 /* Shopping */ = {
 			isa = PBXGroup;
 			children = (
-				76560CA62C7EE45F00B0D7F2 /* ShoppingViewController.swift */,
+				76560CA82C7EE56800B0D7F2 /* Views */,
+				76560CA92C7EE56F00B0D7F2 /* ViewModel */,
 			);
 			path = Shopping;
+			sourceTree = "<group>";
+		};
+		76560CA82C7EE56800B0D7F2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				76560CA62C7EE45F00B0D7F2 /* ShoppingViewController.swift */,
+				76560CAA2C7EE5A400B0D7F2 /* ShoppingTableViewCell.swift */,
+				76560CAC2C7EE61600B0D7F2 /* ShoppingCollectionViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		76560CA92C7EE56F00B0D7F2 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				76560CB02C7EEF0100B0D7F2 /* ShoppingViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		769F8A7A2C7D9170000360D9 /* ViewModel */ = {
@@ -340,6 +367,7 @@
 				76D60AF82C784173008293D4 /* LoginModel.swift */,
 				76F85F242C7C686F00B98C2F /* PostContentModel.swift */,
 				76F85F262C7C6D9E00B98C2F /* RefreshModel.swift */,
+				76560CAE2C7EE94D00B0D7F2 /* ShoppingModel.swift */,
 			);
 			path = ResponseModel;
 			sourceTree = "<group>";
@@ -478,6 +506,7 @@
 				769F8A862C7DB2E7000360D9 /* CollectionViewModel.swift in Sources */,
 				76F85F252C7C686F00B98C2F /* PostContentModel.swift in Sources */,
 				76D60AE52C78302D008293D4 /* Constant.swift in Sources */,
+				76560CAF2C7EE94D00B0D7F2 /* ShoppingModel.swift in Sources */,
 				76D60AF12C7836C9008293D4 /* Header.swift in Sources */,
 				76D60B062C7847C7008293D4 /* BaseViewModel.swift in Sources */,
 				76D3720F2C6C9A770066AB0A /* APIKey.swift in Sources */,
@@ -487,9 +516,11 @@
 				76F85F232C7C657000B98C2F /* PostCategory.swift in Sources */,
 				76F85F2E2C7C7E8F00B98C2F /* String+.swift in Sources */,
 				76D60AD62C782E15008293D4 /* LoginViewController.swift in Sources */,
+				76560CAD2C7EE61600B0D7F2 /* ShoppingCollectionViewCell.swift in Sources */,
 				76BDB0ED2C7AFA4400C43955 /* CollectionViewController.swift in Sources */,
 				76D60B0D2C786E8F008293D4 /* SuggestionViewController.swift in Sources */,
 				76D60ADC2C782F03008293D4 /* BlackBorderTextField.swift in Sources */,
+				76560CB12C7EEF0100B0D7F2 /* ShoppingViewModel.swift in Sources */,
 				76560CA72C7EE45F00B0D7F2 /* ShoppingViewController.swift in Sources */,
 				76D60AFF2C7846F8008293D4 /* LoginViewModel.swift in Sources */,
 				76D371FB2C6C98F20066AB0A /* SceneDelegate.swift in Sources */,
@@ -508,6 +539,7 @@
 				76D60AD92C782E2B008293D4 /* BaseViewController.swift in Sources */,
 				76F85F272C7C6D9E00B98C2F /* RefreshModel.swift in Sources */,
 				76F85F2C2C7C728000B98C2F /* DateFormatterManager.swift in Sources */,
+				76560CAB2C7EE5A400B0D7F2 /* ShoppingTableViewCell.swift in Sources */,
 				76BDB0E92C7AF98400C43955 /* TabBarViewController.swift in Sources */,
 				76BDB0FD2C7B10F000C43955 /* ReuseIdentifierProtocol.swift in Sources */,
 				76F85F1C2C7C4F0E00B98C2F /* UIColor+.swift in Sources */,

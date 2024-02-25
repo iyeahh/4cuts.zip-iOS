@@ -74,6 +74,35 @@ final class NetworkManager {
         }
     }
 
+    func fetchShopping(query: String) -> Single<Result<ShoppingModel, NetworkError>> {
+        return Single.create { observer -> Disposable in
+            var request: URLRequest
+
+            do {
+                request = try Router.fetchShopping(query: query).asURLRequest()
+            } catch {
+                observer(.success(.failure(.invaildURL)))
+                return Disposables.create()
+            }
+
+            AF.request(request)
+                .responseDecodable(of: ShoppingModel.self) { [weak self] response in
+                    if response.response?.statusCode == 419 {
+                        guard let self else { return }
+                        print("리프레시 토큰 개시")
+                        refreshToken()
+                    }
+                    switch response.result {
+                    case .success(let value):
+                        observer(.success(.success(value)))
+                    case .failure:
+                        observer(.success(.failure(.unknownResponse)))
+                    }
+                }
+            return Disposables.create()
+        }
+    }
+
     private func refreshToken() {
         do {
             let request = try Router.refresh.asURLRequest()
