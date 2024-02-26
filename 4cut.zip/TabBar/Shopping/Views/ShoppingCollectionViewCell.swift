@@ -11,7 +11,12 @@ import Kingfisher
 
 final class ShoppingCollectionViewCell: BaseCollectionViewCell {
 
-    let mainImageView = UIImageView()
+    let mainImageView = {
+        let imageView = UIImageView()
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 12
+        return imageView
+    }()
 
     let productTitleLabel = {
         let label = UILabel()
@@ -27,7 +32,7 @@ final class ShoppingCollectionViewCell: BaseCollectionViewCell {
         return label
     }()
 
-    private let getButton = {
+    let getButton = {
         let button = UIButton()
         var configuration = UIButton.Configuration.filled()
         configuration.image = UIImage(systemName: "giftcard")

@@ -7,9 +7,11 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
-final class ShoppingTableViewCell: UITableViewCell {
-    let titleLabel = {
+final class ShoppingTableViewCell: BaseTableViewCell {
+
+    let categoryLabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 19)
         return label
@@ -17,16 +19,7 @@ final class ShoppingTableViewCell: UITableViewCell {
 
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureHierarchy()
-        configureLayout()
-        collectionView.showsHorizontalScrollIndicator = false
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    let disposeBag = DisposeBag()
 
     private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
@@ -38,19 +31,20 @@ final class ShoppingTableViewCell: UITableViewCell {
         return layout
     }
 
-    private func configureHierarchy() {
-        contentView.addSubview(titleLabel)
+    override func configureHierarchy() {
+        contentView.addSubview(categoryLabel)
         contentView.addSubview(collectionView)
     }
 
-    private func configureLayout() {
-        titleLabel.snp.makeConstraints { make in
+    override func configureLayout() {
+        categoryLabel.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().inset(20)
         }
 
         collectionView.snp.makeConstraints { make in
             make.horizontalEdges.bottom.equalToSuperview()
-            make.top.equalTo(titleLabel.snp.bottom).offset(10)
+            make.top.equalTo(categoryLabel.snp.bottom).offset(10)
         }
     }
+    
 }

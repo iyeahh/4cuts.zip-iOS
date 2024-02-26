@@ -69,7 +69,7 @@ extension Router: TargetType {
         case .refresh:
             return "/auth/refresh"
         case .fetchShopping:
-            return "/search/shop.json?"
+            return "/search/shop.json"
         }
     }
 
