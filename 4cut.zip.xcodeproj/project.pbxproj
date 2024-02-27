@@ -13,6 +13,7 @@
 		76560CAD2C7EE61600B0D7F2 /* ShoppingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76560CAC2C7EE61600B0D7F2 /* ShoppingCollectionViewCell.swift */; };
 		76560CAF2C7EE94D00B0D7F2 /* ShoppingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76560CAE2C7EE94D00B0D7F2 /* ShoppingModel.swift */; };
 		76560CB12C7EEF0100B0D7F2 /* ShoppingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76560CB02C7EEF0100B0D7F2 /* ShoppingViewModel.swift */; };
+		76560CB42C7F038D00B0D7F2 /* iamport-ios in Frameworks */ = {isa = PBXBuildFile; productRef = 76560CB32C7F038D00B0D7F2 /* iamport-ios */; };
 		769F8A7D2C7D91B4000360D9 /* PinterestCompostionalLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F8A7C2C7D91B4000360D9 /* PinterestCompostionalLayout.swift */; };
 		769F8A802C7DB091000360D9 /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F8A7F2C7DB091000360D9 /* PhotoModel.swift */; };
 		769F8A822C7DB150000360D9 /* PinterestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F8A812C7DB150000360D9 /* PinterestCollectionViewCell.swift */; };
@@ -131,6 +132,7 @@
 				76D60B022C78476E008293D4 /* RxCocoa in Frameworks */,
 				76D60AE12C782FB3008293D4 /* SnapKit in Frameworks */,
 				76D60B042C78476E008293D4 /* RxSwift in Frameworks */,
+				76560CB42C7F038D00B0D7F2 /* iamport-ios in Frameworks */,
 				76D60AED2C783540008293D4 /* Alamofire in Frameworks */,
 				76F85F2A2C7C71AD00B98C2F /* Kingfisher in Frameworks */,
 			);
@@ -437,6 +439,7 @@
 				76D60B012C78476E008293D4 /* RxCocoa */,
 				76D60B032C78476E008293D4 /* RxSwift */,
 				76F85F292C7C71AD00B98C2F /* Kingfisher */,
+				76560CB32C7F038D00B0D7F2 /* iamport-ios */,
 			);
 			productName = 4cut.zip;
 			productReference = 76D371F52C6C98F20066AB0A /* 4cut.zip.app */;
@@ -471,6 +474,7 @@
 				76D60AEB2C783540008293D4 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				76D60B002C78476E008293D4 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				76F85F282C7C71AD00B98C2F /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				76560CB22C7F038D00B0D7F2 /* XCRemoteSwiftPackageReference "iamport-ios" */,
 			);
 			productRefGroup = 76D371F62C6C98F20066AB0A /* Products */;
 			projectDirPath = "";
@@ -699,6 +703,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -732,6 +737,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -774,6 +780,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		76560CB22C7F038D00B0D7F2 /* XCRemoteSwiftPackageReference "iamport-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/iamport/iamport-ios?tab=readme-ov-file";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.2;
+			};
+		};
 		76D60ADF2C782FB3008293D4 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -809,6 +823,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		76560CB32C7F038D00B0D7F2 /* iamport-ios */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 76560CB22C7F038D00B0D7F2 /* XCRemoteSwiftPackageReference "iamport-ios" */;
+			productName = "iamport-ios";
+		};
 		76D60AE02C782FB3008293D4 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 76D60ADF2C782FB3008293D4 /* XCRemoteSwiftPackageReference "SnapKit" */;
