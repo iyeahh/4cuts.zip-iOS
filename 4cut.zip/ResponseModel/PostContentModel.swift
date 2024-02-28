@@ -14,6 +14,7 @@ struct PostContentModel: Decodable {
 struct PostContent: Decodable {
     let post_id: String
     let title: String
+    let price: Int?
     let content: String
     let createdAt: String
     let creator: Creator

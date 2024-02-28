@@ -23,8 +23,8 @@ final class ShoppingTableViewCell: BaseTableViewCell {
 
     private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
-        let width = (UIScreen.main.bounds.width - 10) / 2
-        layout.itemSize = CGSize(width: width, height: width * 1.3)
+        let width = (UIScreen.main.bounds.width - 10) / 3
+        layout.itemSize = CGSize(width: width, height: width * 2)
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 10
         layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
@@ -38,7 +38,8 @@ final class ShoppingTableViewCell: BaseTableViewCell {
 
     override func configureLayout() {
         categoryLabel.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().inset(20)
+            make.leading.equalToSuperview().inset(20)
+            make.top.equalToSuperview().offset(10)
         }
 
         collectionView.snp.makeConstraints { make in

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7607E1DA2C8033D4008181D0 /* ShoppingCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7607E1D92C8033D4008181D0 /* ShoppingCategory.swift */; };
+		7607E1DC2C8071F7008181D0 /* PaymentValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7607E1DB2C8071F7008181D0 /* PaymentValidation.swift */; };
+		7607E1DE2C8072FF008181D0 /* PaymentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7607E1DD2C8072FF008181D0 /* PaymentModel.swift */; };
+		7634243B2C80838800AC40D1 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 7634243A2C80838800AC40D1 /* Toast */; };
 		76560CA52C7EE45600B0D7F2 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76560CA42C7EE45600B0D7F2 /* PostViewController.swift */; };
 		76560CA72C7EE45F00B0D7F2 /* ShoppingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76560CA62C7EE45F00B0D7F2 /* ShoppingViewController.swift */; };
 		76560CAB2C7EE5A400B0D7F2 /* ShoppingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76560CAA2C7EE5A400B0D7F2 /* ShoppingTableViewCell.swift */; };
@@ -68,6 +72,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7607E1D92C8033D4008181D0 /* ShoppingCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCategory.swift; sourceTree = "<group>"; };
+		7607E1DB2C8071F7008181D0 /* PaymentValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentValidation.swift; sourceTree = "<group>"; };
+		7607E1DD2C8072FF008181D0 /* PaymentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentModel.swift; sourceTree = "<group>"; };
 		76560CA42C7EE45600B0D7F2 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		76560CA62C7EE45F00B0D7F2 /* ShoppingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingViewController.swift; sourceTree = "<group>"; };
 		76560CAA2C7EE5A400B0D7F2 /* ShoppingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingTableViewCell.swift; sourceTree = "<group>"; };
@@ -134,6 +141,7 @@
 				76D60B042C78476E008293D4 /* RxSwift in Frameworks */,
 				76560CB42C7F038D00B0D7F2 /* iamport-ios in Frameworks */,
 				76D60AED2C783540008293D4 /* Alamofire in Frameworks */,
+				7634243B2C80838800AC40D1 /* Toast in Frameworks */,
 				76F85F2A2C7C71AD00B98C2F /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -141,6 +149,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7607E1D82C8033C0008181D0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7607E1D92C8033D4008181D0 /* ShoppingCategory.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		76560CA22C7EE43500B0D7F2 /* Post */ = {
 			isa = PBXGroup;
 			children = (
@@ -152,6 +168,7 @@
 		76560CA32C7EE43800B0D7F2 /* Shopping */ = {
 			isa = PBXGroup;
 			children = (
+				7607E1D82C8033C0008181D0 /* Model */,
 				76560CA82C7EE56800B0D7F2 /* Views */,
 				76560CA92C7EE56F00B0D7F2 /* ViewModel */,
 			);
@@ -359,6 +376,7 @@
 			isa = PBXGroup;
 			children = (
 				76D60AF32C783752008293D4 /* LoginQuery.swift */,
+				7607E1DB2C8071F7008181D0 /* PaymentValidation.swift */,
 			);
 			path = RequestModel;
 			sourceTree = "<group>";
@@ -370,6 +388,7 @@
 				76F85F242C7C686F00B98C2F /* PostContentModel.swift */,
 				76F85F262C7C6D9E00B98C2F /* RefreshModel.swift */,
 				76560CAE2C7EE94D00B0D7F2 /* ShoppingModel.swift */,
+				7607E1DD2C8072FF008181D0 /* PaymentModel.swift */,
 			);
 			path = ResponseModel;
 			sourceTree = "<group>";
@@ -440,6 +459,7 @@
 				76D60B032C78476E008293D4 /* RxSwift */,
 				76F85F292C7C71AD00B98C2F /* Kingfisher */,
 				76560CB32C7F038D00B0D7F2 /* iamport-ios */,
+				7634243A2C80838800AC40D1 /* Toast */,
 			);
 			productName = 4cut.zip;
 			productReference = 76D371F52C6C98F20066AB0A /* 4cut.zip.app */;
@@ -475,6 +495,7 @@
 				76D60B002C78476E008293D4 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				76F85F282C7C71AD00B98C2F /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				76560CB22C7F038D00B0D7F2 /* XCRemoteSwiftPackageReference "iamport-ios" */,
+				763424392C80838800AC40D1 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 			);
 			productRefGroup = 76D371F62C6C98F20066AB0A /* Products */;
 			projectDirPath = "";
@@ -524,11 +545,14 @@
 				76BDB0ED2C7AFA4400C43955 /* CollectionViewController.swift in Sources */,
 				76D60B0D2C786E8F008293D4 /* SuggestionViewController.swift in Sources */,
 				76D60ADC2C782F03008293D4 /* BlackBorderTextField.swift in Sources */,
+				7607E1DA2C8033D4008181D0 /* ShoppingCategory.swift in Sources */,
 				76560CB12C7EEF0100B0D7F2 /* ShoppingViewModel.swift in Sources */,
 				76560CA72C7EE45F00B0D7F2 /* ShoppingViewController.swift in Sources */,
+				7607E1DC2C8071F7008181D0 /* PaymentValidation.swift in Sources */,
 				76D60AFF2C7846F8008293D4 /* LoginViewModel.swift in Sources */,
 				76D371FB2C6C98F20066AB0A /* SceneDelegate.swift in Sources */,
 				76F85F1E2C7C532F00B98C2F /* UIButton+.swift in Sources */,
+				7607E1DE2C8072FF008181D0 /* PaymentModel.swift in Sources */,
 				76BDB0FB2C7B10C000C43955 /* UIView+.swift in Sources */,
 				76F85F362C7CAB7D00B98C2F /* Coordinator.swift in Sources */,
 				76BDB0EF2C7AFA5B00C43955 /* ProfileViewController.swift in Sources */,
@@ -780,6 +804,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		763424392C80838800AC40D1 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
+			};
+		};
 		76560CB22C7F038D00B0D7F2 /* XCRemoteSwiftPackageReference "iamport-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/iamport/iamport-ios?tab=readme-ov-file";
@@ -823,6 +855,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7634243A2C80838800AC40D1 /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 763424392C80838800AC40D1 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
+		};
 		76560CB32C7F038D00B0D7F2 /* iamport-ios */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 76560CB22C7F038D00B0D7F2 /* XCRemoteSwiftPackageReference "iamport-ios" */;

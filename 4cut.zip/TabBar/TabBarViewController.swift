@@ -30,7 +30,7 @@ final class TabBarViewController: UITabBarController {
 
     private func configureAppearance() {
         UITabBar.appearance().backgroundColor = Constant.Color.secondaryPink
-        UITabBar.appearance().unselectedItemTintColor = .gray
+        UITabBar.appearance().unselectedItemTintColor = Constant.Color.secondaryLightPink
         UITabBar.appearance().tintColor = Constant.Color.accent
     }
 

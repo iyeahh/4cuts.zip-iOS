@@ -8,73 +8,61 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import iamport_ios
 
 final class ShoppingViewModel: BaseViewModel {
 
     let disposeBag = DisposeBag()
 
     struct Input {
-        let viewDidLoad: Observable<Void>
+        let viewDidLoad: Observable<[ShoppingCategory]>
+        let payTap: PublishSubject<(String, Int?)>
     }
 
     struct Output {
-        let shoppingList: Observable<[Observable<[Item]>]>
+        let shoppingList: Observable<[Observable<[PostContent]>]>
+        let payment: Observable<(IamportPayment, String)>
     }
 
     func transform(input: Input) -> Output {
-        let albumList = PublishSubject<[Item]>()
-        let frameList = PublishSubject<[Item]>()
-        let keyRingList = PublishSubject<[Item]>()
+        let shoppingList = PublishSubject<[Observable<[PostContent]>]>()
+        let outputPayment = PublishSubject<(IamportPayment, String)>()
 
         input.viewDidLoad
             .flatMap { category in
-                NetworkManager.shared.fetchShopping(query: "인생네컷 앨범")
+                NetworkManager.shared.fetchShopping(query: category)
             }
             .subscribe(onNext: { value in
                 switch value {
                 case .success(let value):
-                    albumList.onNext(value.items)
+                    let array = value.map { items in
+                        Observable.just(items)
+                    }
+                    
+                    shoppingList.onNext(array)
+
                 case .failure:
-                    print("인생네컷 앨범 받아오기 실패")
+                    print("쇼핑 받아오기 실패")
                 }
             })
             .disposed(by: disposeBag)
 
-        input.viewDidLoad
-            .flatMap { category in
-                NetworkManager.shared.fetchShopping(query: "인생네컷 액자")
+        input.payTap
+            .subscribe(with: self) { owner, value in
+                let payment = IamportPayment(
+                    pg: PG.html5_inicis.makePgRawName(pgId: "INIpayTest"),
+                    merchant_uid: "ios_\(APIKey.sesacKey)_\(Int(Date().timeIntervalSince1970))",
+                    amount: "\(value.1!)").then {
+                        $0.pay_method = PayMethod.card.rawValue
+                        $0.name = "4cut.zip"
+                        $0.buyer_name = "양보라"
+                        $0.app_scheme = "sesac"
+                    }
+                outputPayment.onNext((payment, value.0))
             }
-            .subscribe(onNext: { value in
-                switch value {
-                case .success(let value):
-                    frameList.onNext(value.items)
-                case .failure:
-                    print("인생네컷 액자 받아오기 실패")
-                }
-            })
             .disposed(by: disposeBag)
 
-        input.viewDidLoad
-            .flatMap { category in
-                NetworkManager.shared.fetchShopping(query: "인생네컷 키링")
-            }
-            .subscribe(onNext: { value in
-                switch value {
-                case .success(let value):
-                    keyRingList.onNext(value.items)
-                case .failure:
-                    print("인생네컷 키링 받아오기 실패")
-                }
-            })
-            .disposed(by: disposeBag)
-
-        let shoppingList: Observable<[Observable<[Item]>]> = Observable.just([
-                    albumList.asObservable(),
-                    frameList.asObservable(),
-                    keyRingList.asObservable()
-                ])
-
-        return Output(shoppingList: shoppingList)
+        return Output(shoppingList: shoppingList, payment: outputPayment)
     }
 
 }

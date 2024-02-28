@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import RxSwift
 
 final class ShoppingCollectionViewCell: BaseCollectionViewCell {
 
@@ -38,13 +39,16 @@ final class ShoppingCollectionViewCell: BaseCollectionViewCell {
         configuration.image = UIImage(systemName: "giftcard")
         configuration.title = "구매하기"
         configuration.titleAlignment = .center
-        configuration.titlePadding = 20
-        configuration.baseBackgroundColor = Constant.Color.accent
-        configuration.baseForegroundColor = .white
+        configuration.imagePadding = 5
+        configuration.baseBackgroundColor = Constant.Color.secondaryPink
+        configuration.baseForegroundColor = Constant.Color.accent
         configuration.cornerStyle = .capsule
+        configuration.buttonSize = .mini
         button.configuration = configuration
         return button
     }()
+
+    let disposeBag = DisposeBag()
 
     override func configureHierarchy() {
         contentView.addSubview(mainImageView)
@@ -56,19 +60,17 @@ final class ShoppingCollectionViewCell: BaseCollectionViewCell {
     override func configureLayout() {
         getButton.snp.makeConstraints { make in
             make.horizontalEdges.bottom.equalToSuperview()
-            make.height.equalTo(44)
+            make.height.equalTo(30)
         }
 
         priceLabel.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(getButton.snp.top).offset(-10)
-            make.height.equalTo(20)
         }
 
         productTitleLabel.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(priceLabel.snp.top).offset(-10)
-            make.height.equalTo(20)
         }
 
         mainImageView.snp.makeConstraints { make in

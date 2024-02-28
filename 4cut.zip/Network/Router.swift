@@ -12,13 +12,14 @@ enum Router {
     case login(query: LoginQuery)
     case fetchPostContent(category: PostCategory)
     case fetchShopping(query: String)
+    case validPay(query: PaymentValidation)
     case refresh
 }
 
 extension Router: TargetType {
     var method: Alamofire.HTTPMethod {
         switch self {
-        case .login:
+        case .login, .validPay:
             return .post
         case .fetchPostContent, .refresh, .fetchShopping:
             return .get
@@ -31,19 +32,23 @@ extension Router: TargetType {
 
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .login, .refresh:
+        case .login, .refresh, .validPay:
             return nil
         case .fetchPostContent(let category):
             return [URLQueryItem(name: "product_id", value: category.productId),
                     URLQueryItem(name: "limit", value: "10")]
-        case .fetchShopping(query: let query):
-            return [URLQueryItem(name: "query", value: query)]
+        case .fetchShopping(let query):
+            return [URLQueryItem(name: "product_id", value: query),
+                    URLQueryItem(name: "limit", value: "10")]
         }
     }
 
     var body: Data? {
         switch self {
         case .login(let query):
+            let encoder = JSONEncoder()
+            return try? encoder.encode(query)
+        case .validPay(let query):
             let encoder = JSONEncoder()
             return try? encoder.encode(query)
         case .fetchPostContent, .refresh, .fetchShopping:
@@ -53,10 +58,8 @@ extension Router: TargetType {
 
     var baseURL: String {
         switch self {
-        case .login, .refresh, .fetchPostContent:
+        case .login, .refresh, .fetchPostContent, .fetchShopping, .validPay:
             return APIKey.baseURL + "v1"
-        case .fetchShopping(let query):
-            return APIKey.searchNaver + "v1"
         }
     }
 
@@ -64,23 +67,23 @@ extension Router: TargetType {
         switch self {
         case .login:
             return "/users/login"
-        case .fetchPostContent:
+        case .fetchPostContent, .fetchShopping:
             return "/posts"
         case .refresh:
             return "/auth/refresh"
-        case .fetchShopping:
-            return "/search/shop.json"
+        case .validPay(query: let query):
+            return "/payments/validation"
         }
     }
 
     var header: [String: String] {
         switch self {
-        case .login:
+        case .login, .validPay:
             return [
                 Header.contentType.rawValue: Header.json.rawValue,
                 Header.sesacKey.rawValue: APIKey.sesacKey
             ]
-        case .fetchPostContent:
+        case .fetchPostContent, .fetchShopping:
             return [
                 Header.contentType.rawValue: Header.json.rawValue,
                 Header.sesacKey.rawValue: APIKey.sesacKey,
@@ -92,11 +95,6 @@ extension Router: TargetType {
                 Header.contentType.rawValue: Header.json.rawValue,
                 Header.refresh.rawValue: UserDefaultsManager.refreshToken,
                 Header.sesacKey.rawValue: APIKey.sesacKey
-            ]
-        case .fetchShopping(query: let query):
-            return [
-                Header.clientID.rawValue: APIKey.naverClientID,
-                Header.clientSceret.rawValue: APIKey.naverClientSecretKey
             ]
         }
     }

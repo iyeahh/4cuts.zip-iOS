@@ -38,7 +38,7 @@ final class LoginViewModel: BaseViewModel {
                     UserDefaultsManager.token = value.access
                     UserDefaultsManager.refreshToken = value.refresh
                     validLogin.onNext(true)
-                case .failure(let error):
+                case .failure:
                     validLogin.onNext(false)
                 }
             })

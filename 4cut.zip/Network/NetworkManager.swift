@@ -45,6 +45,29 @@ final class NetworkManager {
         }
     }
 
+    func validPayment(impUid: String, postId: String, completion: @escaping (Result<PaymentModel, NetworkError>) -> Void) {
+
+        var request: URLRequest
+
+        do {
+            let query = PaymentValidation(imp_uid: impUid, post_id: postId)
+            request = try Router.validPay(query: query).asURLRequest()
+        } catch {
+            completion(.failure(.invaildURL))
+            return
+        }
+
+        AF.request(request)
+            .responseDecodable(of: PaymentModel.self) { response in
+                switch response.result {
+                case .success(let value):
+                    completion(.success(value))
+                case .failure:
+                    completion(.failure(.unknownResponse))
+                }
+            }
+    }
+
     func fetchPostContent(category: PostCategory) -> Single<Result<PostContentModel, NetworkError>> {
         return Single.create { observer -> Disposable in
             var request: URLRequest
@@ -74,31 +97,46 @@ final class NetworkManager {
         }
     }
 
-    func fetchShopping(query: String) -> Single<Result<ShoppingModel, NetworkError>> {
+    func fetchShopping(query: [ShoppingCategory]) -> Single<Result<[[PostContent]], NetworkError>> {
         return Single.create { observer -> Disposable in
-            var request: URLRequest
 
-            do {
-                request = try Router.fetchShopping(query: query).asURLRequest()
-            } catch {
-                observer(.success(.failure(.invaildURL)))
-                return Disposables.create()
+            let group = DispatchGroup()
+            var shoppingList: [[PostContent]] = []
+
+            query.forEach { category in
+
+                group.enter()
+                var request: URLRequest
+
+                do {
+                    request = try Router.fetchShopping(query: category.query).asURLRequest()
+                } catch {
+                    observer(.success(.failure(.invaildURL)))
+                    return ()
+                }
+
+                AF.request(request)
+                    .responseDecodable(of: PostContentModel.self) { [weak self] response in
+                        if response.response?.statusCode == 419 {
+                            guard let self else { return }
+                            print("리프레시 토큰 개시")
+                            refreshToken()
+                        }
+                        switch response.result {
+                        case .success(let value):
+                            shoppingList.append(value.data)
+                            group.leave()
+                        case .failure:
+                            observer(.success(.failure(.unknownResponse)))
+                            group.leave()
+                        }
+                    }
             }
 
-            AF.request(request)
-                .responseDecodable(of: ShoppingModel.self) { [weak self] response in
-                    if response.response?.statusCode == 419 {
-                        guard let self else { return }
-                        print("리프레시 토큰 개시")
-                        refreshToken()
-                    }
-                    switch response.result {
-                    case .success(let value):
-                        observer(.success(.success(value)))
-                    case .failure:
-                        observer(.success(.failure(.unknownResponse)))
-                    }
-                }
+            group.notify(queue: .main) {
+                observer(.success(.success(shoppingList)))
+            }
+
             return Disposables.create()
         }
     }
