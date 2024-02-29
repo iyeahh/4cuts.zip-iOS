@@ -10,7 +10,6 @@ import UIKit
 enum TabBar: String, CaseIterable {
     case collection
     case suggestion = "추천"
-    case post = "새로운 글 작성"
     case shopping = "쇼핑"
     case profile
 
@@ -22,8 +21,6 @@ enum TabBar: String, CaseIterable {
             return UIImage(systemName: "cursorarrow.rays")
         case .profile:
             return UIImage(systemName: "person.crop.square")
-        case .post:
-            return UIImage(systemName: "square.and.pencil")
         case .shopping:
             return UIImage(systemName: "handbag")
         }
@@ -37,8 +34,6 @@ enum TabBar: String, CaseIterable {
             return "추천"
         case .profile:
             return "프로필"
-        case .post:
-            return "포스트 작성"
         case .shopping:
             return "쇼핑"
         }
@@ -52,8 +47,6 @@ enum TabBar: String, CaseIterable {
             return SuggestionViewController()
         case .profile:
             return ProfileViewController()
-        case .post:
-            return PostViewController()
         case .shopping:
             return ShoppingViewController()
         }

@@ -14,6 +14,7 @@ enum Router {
     case fetchShopping(query: String)
     case validPay(query: PaymentValidation)
     case refresh
+    case map(x: Double, y: Double)
 }
 
 extension Router: TargetType {
@@ -21,7 +22,7 @@ extension Router: TargetType {
         switch self {
         case .login, .validPay:
             return .post
-        case .fetchPostContent, .refresh, .fetchShopping:
+        case .fetchPostContent, .refresh, .fetchShopping, .map:
             return .get
         }
     }
@@ -40,6 +41,11 @@ extension Router: TargetType {
         case .fetchShopping(let query):
             return [URLQueryItem(name: "product_id", value: query),
                     URLQueryItem(name: "limit", value: "10")]
+        case .map(let x, let y):
+            return [URLQueryItem(name: "query", value: "근처 즉석사진"),
+                    URLQueryItem(name: "x", value: "\(x)"),
+                    URLQueryItem(name: "y", value: "\(y)")
+            ]
         }
     }
 
@@ -51,7 +57,7 @@ extension Router: TargetType {
         case .validPay(let query):
             let encoder = JSONEncoder()
             return try? encoder.encode(query)
-        case .fetchPostContent, .refresh, .fetchShopping:
+        case .fetchPostContent, .refresh, .fetchShopping, .map:
             return nil
         }
     }
@@ -60,6 +66,8 @@ extension Router: TargetType {
         switch self {
         case .login, .refresh, .fetchPostContent, .fetchShopping, .validPay:
             return APIKey.baseURL + "v1"
+        case .map:
+            return APIKey.mapBaseURL + "v2"
         }
     }
 
@@ -71,8 +79,10 @@ extension Router: TargetType {
             return "/posts"
         case .refresh:
             return "/auth/refresh"
-        case .validPay(query: let query):
+        case .validPay:
             return "/payments/validation"
+        case .map:
+            return "/local/search/keyword"
         }
     }
 
@@ -95,6 +105,10 @@ extension Router: TargetType {
                 Header.contentType.rawValue: Header.json.rawValue,
                 Header.refresh.rawValue: UserDefaultsManager.refreshToken,
                 Header.sesacKey.rawValue: APIKey.sesacKey
+            ]
+        case .map:
+            return [
+                Header.authorization.rawValue: APIKey.kakaoKey
             ]
         }
     }

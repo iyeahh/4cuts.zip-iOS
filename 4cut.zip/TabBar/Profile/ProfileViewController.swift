@@ -5,7 +5,7 @@
 //  Created by Bora Yang on 8/25/24.
 //
 
-import Foundation
+import UIKit
 
 final class ProfileViewController: BaseViewController {
     

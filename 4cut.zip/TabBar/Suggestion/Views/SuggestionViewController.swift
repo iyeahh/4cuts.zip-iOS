@@ -39,11 +39,8 @@ final class SuggestionViewController: BaseViewController {
 
     override func configureView() {
         view.backgroundColor = .white
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = TabBar.suggestion.rawValue
-        tableView.register(SuggestionTableViewCell.self, forCellReuseIdentifier: SuggestionTableViewCell.identifier)
-        tableView.rowHeight = 420
-        tableView.separatorStyle = .none
+        configureNavi()
+        configureTableView()
     }
 
     override func configureHierarchy() {
@@ -103,6 +100,8 @@ final class SuggestionViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
 
+
+
         let input = SuggestionViewModel.Input(
             categoryTap: Observable.just(PostCategory.new),
             newButtonTap: newButton.rx.tap
@@ -126,6 +125,31 @@ final class SuggestionViewController: BaseViewController {
                 cell.mainImageView.kf.setImage(with: element.files.first!.url)
                 cell.contentLabel.text = element.content
                 cell.commentCountLabel.text = "\(element.comments.count)"
+            }
+            .disposed(by: disposeBag)
+    }
+
+    private func configureTableView() {
+        tableView.register(SuggestionTableViewCell.self, forCellReuseIdentifier: SuggestionTableViewCell.identifier)
+        tableView.rowHeight = 420
+        tableView.separatorStyle = .none
+    }
+
+    private func configureNavi() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = TabBar.suggestion.rawValue
+
+        let barbuttonItem = UIBarButtonItem(image: UIImage(systemName: "map"), style: .plain, target: nil, action: nil)
+        barbuttonItem.tintColor = Constant.Color.accent
+        navigationItem.rightBarButtonItem = barbuttonItem
+
+        let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        backBarButtonItem.tintColor = Constant.Color.accent
+        navigationItem.backBarButtonItem = backBarButtonItem
+
+        barbuttonItem.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.pushViewController(MapViewController(), animated: true)
             }
             .disposed(by: disposeBag)
     }

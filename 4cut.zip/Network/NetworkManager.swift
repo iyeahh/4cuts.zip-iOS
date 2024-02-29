@@ -167,4 +167,28 @@ final class NetworkManager {
         }
     }
 
+    func fetchMap(x: Double, y: Double) -> Single<Result<MapModel, NetworkError>> {
+        return Single.create { observer -> Disposable in
+            var request: URLRequest
+
+            do {
+                request = try Router.map(x: y, y: x).asURLRequest()
+            } catch {
+                observer(.success(.failure(.invaildURL)))
+                return Disposables.create()
+            }
+
+            AF.request(request)
+                .responseDecodable(of: MapModel.self) { response in
+                    switch response.result {
+                    case .success(let value):
+                        observer(.success(.success(value)))
+                    case .failure:
+                        observer(.success(.failure(.unknownResponse)))
+                    }
+                }
+            return Disposables.create()
+        }
+    }
+
 }

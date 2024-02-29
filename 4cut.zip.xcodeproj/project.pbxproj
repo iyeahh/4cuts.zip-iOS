@@ -23,6 +23,10 @@
 		769F8A822C7DB150000360D9 /* PinterestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F8A812C7DB150000360D9 /* PinterestCollectionViewCell.swift */; };
 		769F8A842C7DB172000360D9 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F8A832C7DB172000360D9 /* BaseCollectionViewCell.swift */; };
 		769F8A862C7DB2E7000360D9 /* CollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F8A852C7DB2E7000360D9 /* CollectionViewModel.swift */; };
+		76B0352F2C81627900074460 /* Junios.NMapSDKForSPM in Frameworks */ = {isa = PBXBuildFile; productRef = 76B0352E2C81627900074460 /* Junios.NMapSDKForSPM */; };
+		76B035312C81700B00074460 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B035302C81700B00074460 /* MapModel.swift */; };
+		76B035342C81996100074460 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B035332C81996100074460 /* MapViewController.swift */; };
+		76B035382C8199A100074460 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B035372C8199A100074460 /* MapViewModel.swift */; };
 		76BDB0E72C7AF97700C43955 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BDB0E62C7AF97700C43955 /* TabBar.swift */; };
 		76BDB0E92C7AF98400C43955 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BDB0E82C7AF98400C43955 /* TabBarViewController.swift */; };
 		76BDB0ED2C7AFA4400C43955 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BDB0EC2C7AFA4400C43955 /* CollectionViewController.swift */; };
@@ -86,6 +90,9 @@
 		769F8A812C7DB150000360D9 /* PinterestCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinterestCollectionViewCell.swift; sourceTree = "<group>"; };
 		769F8A832C7DB172000360D9 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		769F8A852C7DB2E7000360D9 /* CollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewModel.swift; sourceTree = "<group>"; };
+		76B035302C81700B00074460 /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
+		76B035332C81996100074460 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		76B035372C8199A100074460 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		76BDB0E62C7AF97700C43955 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		76BDB0E82C7AF98400C43955 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		76BDB0EC2C7AFA4400C43955 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +150,7 @@
 				76D60AED2C783540008293D4 /* Alamofire in Frameworks */,
 				7634243B2C80838800AC40D1 /* Toast in Frameworks */,
 				76F85F2A2C7C71AD00B98C2F /* Kingfisher in Frameworks */,
+				76B0352F2C81627900074460 /* Junios.NMapSDKForSPM in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,6 +225,31 @@
 				769F8A7F2C7DB091000360D9 /* PhotoModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		76B035322C81994C00074460 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				76B035362C81999600074460 /* Views */,
+				76B035352C81998800074460 /* ViewModel */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		76B035352C81998800074460 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				76B035372C8199A100074460 /* MapViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		76B035362C81999600074460 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				76B035332C81996100074460 /* MapViewController.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		76BDB0E52C7AF90F00C43955 /* TabBar */ = {
@@ -389,6 +422,7 @@
 				76F85F262C7C6D9E00B98C2F /* RefreshModel.swift */,
 				76560CAE2C7EE94D00B0D7F2 /* ShoppingModel.swift */,
 				7607E1DD2C8072FF008181D0 /* PaymentModel.swift */,
+				76B035302C81700B00074460 /* MapModel.swift */,
 			);
 			path = ResponseModel;
 			sourceTree = "<group>";
@@ -424,6 +458,7 @@
 				76F85F212C7C656700B98C2F /* Model */,
 				76BDB0F32C7AFE5B00C43955 /* Views */,
 				76BDB0F42C7AFE6300C43955 /* ViewModel */,
+				76B035322C81994C00074460 /* Map */,
 			);
 			path = Suggestion;
 			sourceTree = "<group>";
@@ -460,6 +495,7 @@
 				76F85F292C7C71AD00B98C2F /* Kingfisher */,
 				76560CB32C7F038D00B0D7F2 /* iamport-ios */,
 				7634243A2C80838800AC40D1 /* Toast */,
+				76B0352E2C81627900074460 /* Junios.NMapSDKForSPM */,
 			);
 			productName = 4cut.zip;
 			productReference = 76D371F52C6C98F20066AB0A /* 4cut.zip.app */;
@@ -496,6 +532,7 @@
 				76F85F282C7C71AD00B98C2F /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				76560CB22C7F038D00B0D7F2 /* XCRemoteSwiftPackageReference "iamport-ios" */,
 				763424392C80838800AC40D1 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				76B0352D2C81627900074460 /* XCRemoteSwiftPackageReference "NaverMapSDKForSPM" */,
 			);
 			productRefGroup = 76D371F62C6C98F20066AB0A /* Products */;
 			projectDirPath = "";
@@ -530,6 +567,7 @@
 				76D371F92C6C98F20066AB0A /* AppDelegate.swift in Sources */,
 				769F8A862C7DB2E7000360D9 /* CollectionViewModel.swift in Sources */,
 				76F85F252C7C686F00B98C2F /* PostContentModel.swift in Sources */,
+				76B035382C8199A100074460 /* MapViewModel.swift in Sources */,
 				76D60AE52C78302D008293D4 /* Constant.swift in Sources */,
 				76560CAF2C7EE94D00B0D7F2 /* ShoppingModel.swift in Sources */,
 				76D60AF12C7836C9008293D4 /* Header.swift in Sources */,
@@ -565,6 +603,7 @@
 				76D60AE72C78323C008293D4 /* RedColorLabel.swift in Sources */,
 				76560CA52C7EE45600B0D7F2 /* PostViewController.swift in Sources */,
 				76D60AD92C782E2B008293D4 /* BaseViewController.swift in Sources */,
+				76B035312C81700B00074460 /* MapModel.swift in Sources */,
 				76F85F272C7C6D9E00B98C2F /* RefreshModel.swift in Sources */,
 				76F85F2C2C7C728000B98C2F /* DateFormatterManager.swift in Sources */,
 				76560CAB2C7EE5A400B0D7F2 /* ShoppingTableViewCell.swift in Sources */,
@@ -572,6 +611,7 @@
 				76BDB0FD2C7B10F000C43955 /* ReuseIdentifierProtocol.swift in Sources */,
 				76F85F1C2C7C4F0E00B98C2F /* UIColor+.swift in Sources */,
 				769F8A802C7DB091000360D9 /* PhotoModel.swift in Sources */,
+				76B035342C81996100074460 /* MapViewController.swift in Sources */,
 				769F8A822C7DB150000360D9 /* PinterestCollectionViewCell.swift in Sources */,
 				76D60ADE2C782F60008293D4 /* BlackBackgroundButton.swift in Sources */,
 				76BDB0E72C7AF97700C43955 /* TabBar.swift in Sources */,
@@ -820,6 +860,14 @@
 				minimumVersion = 1.4.2;
 			};
 		};
+		76B0352D2C81627900074460 /* XCRemoteSwiftPackageReference "NaverMapSDKForSPM" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/J0onYEong/NaverMapSDKForSPM.git";
+			requirement = {
+				kind = exactVersion;
+				version = 1.0.0;
+			};
+		};
 		76D60ADF2C782FB3008293D4 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -864,6 +912,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 76560CB22C7F038D00B0D7F2 /* XCRemoteSwiftPackageReference "iamport-ios" */;
 			productName = "iamport-ios";
+		};
+		76B0352E2C81627900074460 /* Junios.NMapSDKForSPM */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 76B0352D2C81627900074460 /* XCRemoteSwiftPackageReference "NaverMapSDKForSPM" */;
+			productName = Junios.NMapSDKForSPM;
 		};
 		76D60AE02C782FB3008293D4 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
