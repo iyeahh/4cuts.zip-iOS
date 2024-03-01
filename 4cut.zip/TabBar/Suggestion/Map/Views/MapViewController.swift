@@ -36,7 +36,6 @@ final class MapViewController: BaseViewController {
         output.markList
             .subscribe(with: self) { owner, value in
                 value.forEach { photoBooth in
-                    let marker = NMFMarker()
                     owner.makeMarker(photoBooth)
                 }
             }

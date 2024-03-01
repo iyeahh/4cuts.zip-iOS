@@ -27,6 +27,7 @@
 		76B035312C81700B00074460 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B035302C81700B00074460 /* MapModel.swift */; };
 		76B035342C81996100074460 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B035332C81996100074460 /* MapViewController.swift */; };
 		76B035382C8199A100074460 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B035372C8199A100074460 /* MapViewModel.swift */; };
+		76B0353B2C81BC6C00074460 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0353A2C81BC6C00074460 /* Location.swift */; };
 		76BDB0E72C7AF97700C43955 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BDB0E62C7AF97700C43955 /* TabBar.swift */; };
 		76BDB0E92C7AF98400C43955 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BDB0E82C7AF98400C43955 /* TabBarViewController.swift */; };
 		76BDB0ED2C7AFA4400C43955 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BDB0EC2C7AFA4400C43955 /* CollectionViewController.swift */; };
@@ -93,6 +94,7 @@
 		76B035302C81700B00074460 /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 		76B035332C81996100074460 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		76B035372C8199A100074460 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		76B0353A2C81BC6C00074460 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		76BDB0E62C7AF97700C43955 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		76BDB0E82C7AF98400C43955 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		76BDB0EC2C7AFA4400C43955 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 		76B035322C81994C00074460 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				76B035392C81BC5F00074460 /* Model */,
 				76B035362C81999600074460 /* Views */,
 				76B035352C81998800074460 /* ViewModel */,
 			);
@@ -250,6 +253,14 @@
 				76B035332C81996100074460 /* MapViewController.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		76B035392C81BC5F00074460 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				76B0353A2C81BC6C00074460 /* Location.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		76BDB0E52C7AF90F00C43955 /* TabBar */ = {
@@ -595,6 +606,7 @@
 				76F85F362C7CAB7D00B98C2F /* Coordinator.swift in Sources */,
 				76BDB0EF2C7AFA5B00C43955 /* ProfileViewController.swift in Sources */,
 				76F85F382C7CAE4900B98C2F /* UILabel+.swift in Sources */,
+				76B0353B2C81BC6C00074460 /* Location.swift in Sources */,
 				76BDB0F12C7AFDD900C43955 /* BaseTableViewCell.swift in Sources */,
 				76BDB0F62C7AFE7F00C43955 /* SuggestionTableViewCell.swift in Sources */,
 				76D60AF92C784173008293D4 /* LoginModel.swift in Sources */,

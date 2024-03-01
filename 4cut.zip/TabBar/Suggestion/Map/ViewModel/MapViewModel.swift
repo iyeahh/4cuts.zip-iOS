@@ -27,8 +27,8 @@ final class MapViewModel: BaseViewModel {
         let markList = PublishSubject<[PhotoBooth]>()
 
         input.locationSubject
-            .flatMap { location in
-                NetworkManager.shared.fetchMap(x: location.0, y: location.1)
+            .flatMap { location -> Single<Result<MapModel, NetworkError>> in
+                NetworkManager.shared.postCallRequestWithoutToken(router: .map(x: location.0, y: location.1))
             }
             .subscribe(onNext: { value in
                 switch value {

@@ -26,7 +26,7 @@ final class CollectionViewController: BaseViewController {
     var dataSource: DataSource?
 
     override func bind() {
-        let startTriggerSub = BehaviorRelay<Void> (value: ())
+        let startTriggerSub = BehaviorRelay<PostCategory> (value: .photo)
 
         let input = CollectionViewModel.Input(
             startTriggerSub: startTriggerSub

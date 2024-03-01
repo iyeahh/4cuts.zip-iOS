@@ -36,8 +36,8 @@ final class SuggestionViewModel: BaseViewModel {
 
     private func callRequest(category: Observable<PostCategory>) {
         category
-            .flatMap { category in
-                NetworkManager.shared.fetchPostContent(category: category)
+            .flatMap { category -> Single<Result<PostContentModel, NetworkError>> in
+                NetworkManager.shared.callRequestWithToken(router: .fetchPostContent(category: category))
             }
             .subscribe(onNext: { [weak self] value in
                 guard let self else { return }

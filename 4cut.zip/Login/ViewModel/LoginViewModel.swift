@@ -29,8 +29,8 @@ final class LoginViewModel: BaseViewModel {
 
         input.signInButtonTap
             .withLatestFrom(Observable.combineLatest(input.emailTextFieldText, input.passwordTextFieldText))
-            .flatMap { email, password in
-                NetworkManager.shared.createLogin(email: email, password: password)
+            .flatMap { email, password -> Single<Result<LoginModel, NetworkError>> in
+                NetworkManager.shared.callRequest(router: .login(query: LoginQuery(email: email, password: password)))
             }
             .subscribe(onNext: { value in
                 switch value {
@@ -43,7 +43,7 @@ final class LoginViewModel: BaseViewModel {
                 }
             })
             .disposed(by: disposeBag)
-
+        
         return Output(validLogin: validLogin)
     }
 

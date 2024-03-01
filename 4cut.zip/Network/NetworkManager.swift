@@ -20,20 +20,19 @@ final class NetworkManager {
 
     private init() { }
 
-    func createLogin(email: String, password: String) -> Single<Result<LoginModel, NetworkError>> {
+    func callRequest<T: Decodable>(router: Router) -> Single<Result<T, NetworkError>> {
         return Single.create { observer -> Disposable in
             var request: URLRequest
 
             do {
-                let query = LoginQuery(email: email, password: password)
-                request = try Router.login(query: query).asURLRequest()
+                request = try router.asURLRequest()
             } catch {
                 observer(.success(.failure(.invaildURL)))
                 return Disposables.create()
             }
 
             AF.request(request)
-                .responseDecodable(of: LoginModel.self) { response in
+                .responseDecodable(of: T.self) { response in
                     switch response.result {
                     case .success(let value):
                         observer(.success(.success(value)))
@@ -45,42 +44,43 @@ final class NetworkManager {
         }
     }
 
-    func validPayment(impUid: String, postId: String, completion: @escaping (Result<PaymentModel, NetworkError>) -> Void) {
-
-        var request: URLRequest
-
-        do {
-            let query = PaymentValidation(imp_uid: impUid, post_id: postId)
-            request = try Router.validPay(query: query).asURLRequest()
-        } catch {
-            completion(.failure(.invaildURL))
-            return
-        }
-
-        AF.request(request)
-            .responseDecodable(of: PaymentModel.self) { response in
-                switch response.result {
-                case .success(let value):
-                    completion(.success(value))
-                case .failure:
-                    completion(.failure(.unknownResponse))
-                }
-            }
-    }
-
-    func fetchPostContent(category: PostCategory) -> Single<Result<PostContentModel, NetworkError>> {
+    func postCallRequestWithoutToken<T: Decodable>(router: Router) -> Single<Result<T, NetworkError>> {
         return Single.create { observer -> Disposable in
             var request: URLRequest
 
             do {
-                request = try Router.fetchPostContent(category: category).asURLRequest()
+                request = try router.asURLRequest()
             } catch {
                 observer(.success(.failure(.invaildURL)))
                 return Disposables.create()
             }
 
             AF.request(request)
-                .responseDecodable(of: PostContentModel.self) { [weak self] response in
+                .responseDecodable(of: T.self) { response in
+                    switch response.result {
+                    case .success(let value):
+                        observer(.success(.success(value)))
+                    case .failure:
+                        observer(.success(.failure(.unknownResponse)))
+                    }
+                }
+            return Disposables.create()
+        }
+    }
+
+    func callRequestWithToken<T: Decodable>(router: Router) -> Single<Result<T, NetworkError>>  {
+        return Single.create { observer -> Disposable in
+            var request: URLRequest
+
+            do {
+                request = try router.asURLRequest()
+            } catch {
+                observer(.success(.failure(.invaildURL)))
+                return Disposables.create()
+            }
+
+            AF.request(request)
+                .responseDecodable(of: T.self) { [weak self] response in
                     if response.response?.statusCode == 419 {
                         guard let self else { return }
                         print("리프레시 토큰 개시")
@@ -141,6 +141,29 @@ final class NetworkManager {
         }
     }
 
+    func validPayment(impUid: String, postId: String, completion: @escaping (Result<PaymentModel, NetworkError>) -> Void) {
+
+        var request: URLRequest
+
+        do {
+            let query = PaymentValidation(imp_uid: impUid, post_id: postId)
+            request = try Router.validPay(query: query).asURLRequest()
+        } catch {
+            completion(.failure(.invaildURL))
+            return
+        }
+
+        AF.request(request)
+            .responseDecodable(of: PaymentModel.self) { response in
+                switch response.result {
+                case .success(let value):
+                    completion(.success(value))
+                case .failure:
+                    completion(.failure(.unknownResponse))
+                }
+            }
+    }
+
     private func refreshToken() {
         do {
             let request = try Router.refresh.asURLRequest()
@@ -164,30 +187,6 @@ final class NetworkManager {
                 }
         } catch {
             print("리프레시 토큰 invaildURL")
-        }
-    }
-
-    func fetchMap(x: Double, y: Double) -> Single<Result<MapModel, NetworkError>> {
-        return Single.create { observer -> Disposable in
-            var request: URLRequest
-
-            do {
-                request = try Router.map(x: y, y: x).asURLRequest()
-            } catch {
-                observer(.success(.failure(.invaildURL)))
-                return Disposables.create()
-            }
-
-            AF.request(request)
-                .responseDecodable(of: MapModel.self) { response in
-                    switch response.result {
-                    case .success(let value):
-                        observer(.success(.success(value)))
-                    case .failure:
-                        observer(.success(.failure(.unknownResponse)))
-                    }
-                }
-            return Disposables.create()
         }
     }
 

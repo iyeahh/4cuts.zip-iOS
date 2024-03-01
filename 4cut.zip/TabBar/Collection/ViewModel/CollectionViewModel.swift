@@ -17,7 +17,7 @@ final class CollectionViewModel: BaseViewModel {
     let disposeBag = DisposeBag()
 
     struct Input {
-        let startTriggerSub: BehaviorRelay<Void>
+        let startTriggerSub: BehaviorRelay<PostCategory>
     }
 
     struct Output {
@@ -27,9 +27,33 @@ final class CollectionViewModel: BaseViewModel {
     func transform(input: Input) -> Output {
         let successData = BehaviorRelay<[PhotoModel]>(value: [])
         
+//        input.startTriggerSub
+//            .flatMap { _ in
+//                NetworkManager.shared.fetchPostContent(category: .photo)
+//            }
+//            .subscribe(onNext: { [weak self] value in
+//                guard let self else { return }
+//
+//                switch value {
+//                case .success(let value):
+//                    var aarray: [PhotoModel] = []
+//
+//                    let _ = value.data.map({ photo in
+//                        self.loadImageAndGetSize(url: photo.files.first!.url!) { size in
+//                            aarray.append(PhotoModel(photo: photo.files.first!, aspect: (size?.width ?? 100) / (size?.height ?? 0)))
+//                            successData.accept(aarray)
+//                            self.realModel = aarray
+//                        }
+//                    })
+//                case .failure:
+//                    print("사진 받아오기 실패")
+//                }
+//            })
+//            .disposed(by: disposeBag)
+
         input.startTriggerSub
-            .flatMap { _ in
-                NetworkManager.shared.fetchPostContent(category: .photo)
+            .flatMap { category -> Single<Result<PostContentModel, NetworkError>> in
+                NetworkManager.shared.callRequestWithToken(router: .fetchPostContent(category: category))
             }
             .subscribe(onNext: { [weak self] value in
                 guard let self else { return }
@@ -50,6 +74,7 @@ final class CollectionViewModel: BaseViewModel {
                 }
             })
             .disposed(by: disposeBag)
+
 
         return Output(successData: successData)
     }
