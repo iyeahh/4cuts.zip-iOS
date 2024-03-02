@@ -14,8 +14,8 @@ enum NetworkError: Error {
     case unknownResponse
 }
 
-final class NetworkManager {
-    
+final class NetworkManager: RequestInterceptor {
+
     static let shared = NetworkManager()
 
     private init() { }
@@ -79,13 +79,8 @@ final class NetworkManager {
                 return Disposables.create()
             }
 
-            AF.request(request)
-                .responseDecodable(of: T.self) { [weak self] response in
-                    if response.response?.statusCode == 419 {
-                        guard let self else { return }
-                        print("리프레시 토큰 개시")
-                        refreshToken()
-                    }
+            AF.request(request, interceptor: NetworkRequestInterceptor())
+                .responseDecodable(of: T.self) { response in
                     switch response.result {
                     case .success(let value):
                         observer(.success(.success(value)))
@@ -95,6 +90,7 @@ final class NetworkManager {
                 }
             return Disposables.create()
         }
+        .retry(3)
     }
 
     func fetchShopping(query: [ShoppingCategory]) -> Single<Result<[[PostContent]], NetworkError>> {
@@ -115,13 +111,8 @@ final class NetworkManager {
                     return ()
                 }
 
-                AF.request(request)
-                    .responseDecodable(of: PostContentModel.self) { [weak self] response in
-                        if response.response?.statusCode == 419 {
-                            guard let self else { return }
-                            print("리프레시 토큰 개시")
-                            refreshToken()
-                        }
+                AF.request(request, interceptor: NetworkRequestInterceptor())
+                    .responseDecodable(of: PostContentModel.self) { response in
                         switch response.result {
                         case .success(let value):
                             shoppingList.append(value.data)
@@ -139,6 +130,7 @@ final class NetworkManager {
 
             return Disposables.create()
         }
+        .retry(3)
     }
 
     func validPayment(impUid: String, postId: String, completion: @escaping (Result<PaymentModel, NetworkError>) -> Void) {
@@ -162,32 +154,6 @@ final class NetworkManager {
                     completion(.failure(.unknownResponse))
                 }
             }
-    }
-
-    private func refreshToken() {
-        do {
-            let request = try Router.refresh.asURLRequest()
-
-            AF.request(request)
-                .responseDecodable(of: RefreshModel.self) { response in
-                    if response.response?.statusCode == 418 {
-                        print("리프레시 토큰 만료")
-                        Coordinator.moveRoot(vc: LoginViewController())
-                        UserDefaultsManager.removeAll()
-                    } else {
-                        switch response.result {
-                        case .success(let success):
-                            print("리프레시 토큰 성공")
-                            UserDefaultsManager.token = success.accessToken
-                            // fetchProfile()
-                        case .failure:
-                            print("리프레시 토큰 실패")
-                        }
-                    }
-                }
-        } catch {
-            print("리프레시 토큰 invaildURL")
-        }
     }
 
 }

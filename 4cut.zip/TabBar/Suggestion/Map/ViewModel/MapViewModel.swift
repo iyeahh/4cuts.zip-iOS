@@ -28,7 +28,7 @@ final class MapViewModel: BaseViewModel {
 
         input.locationSubject
             .flatMap { location -> Single<Result<MapModel, NetworkError>> in
-                NetworkManager.shared.postCallRequestWithoutToken(router: .map(x: location.0, y: location.1))
+                NetworkManager.shared.postCallRequestWithoutToken(router: .map(x: location.1, y: location.0))
             }
             .subscribe(onNext: { value in
                 switch value {
