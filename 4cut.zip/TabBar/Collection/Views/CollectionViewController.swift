@@ -46,7 +46,7 @@ final class CollectionViewController: BaseViewController {
     }
 
     override func configureView() {
-        navigationItem.title = "모아보기"
+        configureNavi()
 
         collectionView.register(PinterestCollectionViewCell.self, forCellWithReuseIdentifier: PinterestCollectionViewCell.identifier)
         collectionView.setCollectionViewLayout(createLayout(), animated: true)
@@ -74,7 +74,23 @@ final class CollectionViewController: BaseViewController {
         }
     }
 
+    private func configureNavi() {
+        navigationItem.title = "모아보기"
 
+        let barbuttonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"), style: .plain, target: nil, action: nil)
+        barbuttonItem.tintColor = Constant.Color.accent
+        navigationItem.rightBarButtonItem = barbuttonItem
+
+        let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        backBarButtonItem.tintColor = Constant.Color.accent
+        navigationItem.backBarButtonItem = backBarButtonItem
+
+        barbuttonItem.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.pushViewController(PostViewController(), animated: true)
+            }
+            .disposed(by: disposeBag)
+    }
 
     private func createPinterstLayout(env: NSCollectionLayoutEnvironment, models: [PhotoModel], viewWidth: CGFloat) -> NSCollectionLayoutSection {
 
