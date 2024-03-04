@@ -7,8 +7,14 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
+import PhotosUI
+import Alamofire
 
 final class PostViewController: BaseViewController {
+
+    let disposeBag = DisposeBag()
 
     let photoButton = {
         let button = UIButton()
@@ -57,6 +63,7 @@ final class PostViewController: BaseViewController {
         configuration.cornerStyle = .medium
         configuration.buttonSize = .medium
         button.configuration = configuration
+        button.addTarget(nil, action: #selector(uploadPhoto), for: .touchUpInside)
         return button
     }()
 
@@ -103,4 +110,55 @@ final class PostViewController: BaseViewController {
         }
     }
 
+    override func bind() {
+        photoButton.rx.tap
+            .subscribe(with: self) { owner, _ in
+                var configuration = PHPickerConfiguration()
+                configuration.selectionLimit = 2
+                configuration.filter = .any(of: [.images, .screenshots])
+
+                let picker = PHPickerViewController(configuration: configuration)
+                picker.delegate = self
+                owner.present(picker, animated: true)
+            }
+            .disposed(by: disposeBag)
+    }
+
+    @objc func uploadPhoto() {
+        do {
+            AF.upload(multipartFormData: { multipartFormData in
+                if let image = self.photoImageView.image?.jpegData(compressionQuality: 0.1) {
+                    multipartFormData.append(image, withName: "files", fileName: "test.png", mimeType: "image/png")
+                }
+            }, with: try Router.uploadPhoto.asURLRequest())
+            .responseDecodable(of: PhotoListModel.self) { response in
+                switch response.result {
+                case .success(let value):
+                    print(value)
+                case .failure:
+                    print("사진 업로드 실패")
+                }
+            }
+        } catch {
+
+        }
+
+    }
+}
+
+
+extension PostViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+
+        results.forEach { photo in
+            if photo.itemProvider.canLoadObject(ofClass: UIImage.self) {
+                photo.itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                    DispatchQueue.main.async {
+                        self.photoImageView.image = image as? UIImage
+                    }
+                }
+            }
+        }
+    }
 }

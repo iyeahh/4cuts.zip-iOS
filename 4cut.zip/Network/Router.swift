@@ -15,12 +15,13 @@ enum Router {
     case validPay(query: PaymentValidation)
     case refresh
     case map(x: Double, y: Double)
+    case uploadPhoto
 }
 
 extension Router: TargetType {
     var method: Alamofire.HTTPMethod {
         switch self {
-        case .login, .validPay:
+        case .login, .validPay, .uploadPhoto:
             return .post
         case .fetchPostContent, .refresh, .fetchShopping, .map:
             return .get
@@ -33,7 +34,7 @@ extension Router: TargetType {
 
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .login, .refresh, .validPay:
+        case .login, .refresh, .validPay, .uploadPhoto:
             return nil
         case .fetchPostContent(let category):
             return [URLQueryItem(name: "product_id", value: category.productId),
@@ -57,14 +58,14 @@ extension Router: TargetType {
         case .validPay(let query):
             let encoder = JSONEncoder()
             return try? encoder.encode(query)
-        case .fetchPostContent, .refresh, .fetchShopping, .map:
+        case .fetchPostContent, .refresh, .fetchShopping, .map, .uploadPhoto:
             return nil
         }
     }
 
     var baseURL: String {
         switch self {
-        case .login, .refresh, .fetchPostContent, .fetchShopping, .validPay:
+        case .login, .refresh, .fetchPostContent, .fetchShopping, .validPay, .uploadPhoto:
             return APIKey.baseURL + "v1"
         case .map:
             return APIKey.mapBaseURL + "v2"
@@ -83,6 +84,8 @@ extension Router: TargetType {
             return "/payments/validation"
         case .map:
             return "/local/search/keyword"
+        case .uploadPhoto:
+            return "/posts/files"
         }
     }
 
@@ -109,6 +112,12 @@ extension Router: TargetType {
         case .map:
             return [
                 Header.authorization.rawValue: APIKey.kakaoKey
+            ]
+        case .uploadPhoto:
+            return [
+                Header.contentType.rawValue: Header.multipart.rawValue,
+                Header.sesacKey.rawValue: APIKey.sesacKey,
+                Header.authorization.rawValue: UserDefaultsManager.token
             ]
         }
     }
