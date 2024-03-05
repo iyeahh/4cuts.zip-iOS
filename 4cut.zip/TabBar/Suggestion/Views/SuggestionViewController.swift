@@ -124,7 +124,7 @@ final class SuggestionViewController: BaseViewController {
                 cell.createDateLabel.text = DateFormatterManager.shared.dateFormat(element.createdAt)
                 cell.mainImageView.kf.setImage(with: element.files.first!.url)
                 cell.contentLabel.text = element.content
-                cell.commentCountLabel.text = "\(element.comments.count)"
+                cell.commentCountLabel.text = "\(element.comments!.count)"
             }
             .disposed(by: disposeBag)
     }

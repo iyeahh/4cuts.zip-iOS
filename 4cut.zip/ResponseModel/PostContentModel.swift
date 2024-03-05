@@ -13,13 +13,13 @@ struct PostContentModel: Decodable {
 
 struct PostContent: Decodable {
     let post_id: String
-    let title: String
+    let title: String?
     let price: Int?
-    let content: String
+    let content: String?
     let createdAt: String
     let creator: Creator
     let files: [String]
-    let comments: [Comment]
+    let comments: [Comment]?
 }
 
 struct Creator: Decodable {

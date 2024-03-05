@@ -134,7 +134,21 @@ final class PostViewController: BaseViewController {
             .responseDecodable(of: PhotoListModel.self) { response in
                 switch response.result {
                 case .success(let value):
-                    print(value)
+                    Observable.just(value)
+                        .flatMap { photo -> Single<Result<PostContent, NetworkError>> in
+                            NetworkManager.shared.callRequestWithToken(router: .postContent(content: Content(content: self.contentTextView.text!, product_id: "4cut_booth", files: photo.files)))
+                        }
+                        .subscribe(onNext: { value in
+                            print(value)
+                            switch value {
+                            case .success(let value):
+                                print(value)
+                                self.navigationController?.popViewController(animated: true)
+                            case .failure:
+                                print("글 업로드 실패")
+                            }
+                        })
+                        .disposed(by: self.disposeBag)
                 case .failure:
                     print("사진 업로드 실패")
                 }

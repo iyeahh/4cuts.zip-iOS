@@ -16,12 +16,13 @@ enum Router {
     case refresh
     case map(x: Double, y: Double)
     case uploadPhoto
+    case postContent(content: Content)
 }
 
 extension Router: TargetType {
     var method: Alamofire.HTTPMethod {
         switch self {
-        case .login, .validPay, .uploadPhoto:
+        case .login, .validPay, .uploadPhoto, .postContent:
             return .post
         case .fetchPostContent, .refresh, .fetchShopping, .map:
             return .get
@@ -34,7 +35,7 @@ extension Router: TargetType {
 
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .login, .refresh, .validPay, .uploadPhoto:
+        case .login, .refresh, .validPay, .uploadPhoto, .postContent:
             return nil
         case .fetchPostContent(let category):
             return [URLQueryItem(name: "product_id", value: category.productId),
@@ -60,12 +61,15 @@ extension Router: TargetType {
             return try? encoder.encode(query)
         case .fetchPostContent, .refresh, .fetchShopping, .map, .uploadPhoto:
             return nil
+        case .postContent(let content):
+            let encoder = JSONEncoder()
+            return try? encoder.encode(content)
         }
     }
 
     var baseURL: String {
         switch self {
-        case .login, .refresh, .fetchPostContent, .fetchShopping, .validPay, .uploadPhoto:
+        case .login, .refresh, .fetchPostContent, .fetchShopping, .validPay, .uploadPhoto, .postContent:
             return APIKey.baseURL + "v1"
         case .map:
             return APIKey.mapBaseURL + "v2"
@@ -76,7 +80,7 @@ extension Router: TargetType {
         switch self {
         case .login:
             return "/users/login"
-        case .fetchPostContent, .fetchShopping:
+        case .fetchPostContent, .fetchShopping, .postContent:
             return "/posts"
         case .refresh:
             return "/auth/refresh"
@@ -96,7 +100,7 @@ extension Router: TargetType {
                 Header.contentType.rawValue: Header.json.rawValue,
                 Header.sesacKey.rawValue: APIKey.sesacKey
             ]
-        case .fetchPostContent, .fetchShopping:
+        case .fetchPostContent, .fetchShopping, .postContent:
             return [
                 Header.contentType.rawValue: Header.json.rawValue,
                 Header.sesacKey.rawValue: APIKey.sesacKey,
