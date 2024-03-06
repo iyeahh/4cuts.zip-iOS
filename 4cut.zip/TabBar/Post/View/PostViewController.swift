@@ -15,6 +15,8 @@ import Alamofire
 final class PostViewController: BaseViewController {
 
     let disposeBag = DisposeBag()
+    let viewModel = PostViewModel()
+    let imageSubject = PublishSubject<UIImage?>()
 
     let photoButton = {
         let button = UIButton()
@@ -63,7 +65,6 @@ final class PostViewController: BaseViewController {
         configuration.cornerStyle = .medium
         configuration.buttonSize = .medium
         button.configuration = configuration
-        button.addTarget(nil, action: #selector(uploadPhoto), for: .touchUpInside)
         return button
     }()
 
@@ -111,7 +112,19 @@ final class PostViewController: BaseViewController {
     }
 
     override func bind() {
-        photoButton.rx.tap
+        let textObservable = Observable.just(contentTextView.text)
+
+        let contentZip = Observable.combineLatest(imageSubject, textObservable)
+
+        let input = PostViewModel.Input(
+            photoButtonTap: photoButton.rx.tap,
+            uploadButtonTap: saveButton.rx.tap
+            .withLatestFrom(contentZip)
+        )
+
+        let output = viewModel.transform(input: input)
+
+        output.photoButtonTap
             .subscribe(with: self) { owner, _ in
                 var configuration = PHPickerConfiguration()
                 configuration.selectionLimit = 2
@@ -122,44 +135,17 @@ final class PostViewController: BaseViewController {
                 owner.present(picker, animated: true)
             }
             .disposed(by: disposeBag)
-    }
 
-    @objc func uploadPhoto() {
-        do {
-            AF.upload(multipartFormData: { multipartFormData in
-                if let image = self.photoImageView.image?.jpegData(compressionQuality: 0.1) {
-                    multipartFormData.append(image, withName: "files", fileName: "test.png", mimeType: "image/png")
-                }
-            }, with: try Router.uploadPhoto.asURLRequest())
-            .responseDecodable(of: PhotoListModel.self) { response in
-                switch response.result {
-                case .success(let value):
-                    Observable.just(value)
-                        .flatMap { photo -> Single<Result<PostContent, NetworkError>> in
-                            NetworkManager.shared.callRequestWithToken(router: .postContent(content: Content(content: self.contentTextView.text!, product_id: "4cut_booth", files: photo.files)))
-                        }
-                        .subscribe(onNext: { value in
-                            print(value)
-                            switch value {
-                            case .success(let value):
-                                print(value)
-                                self.navigationController?.popViewController(animated: true)
-                            case .failure:
-                                print("글 업로드 실패")
-                            }
-                        })
-                        .disposed(by: self.disposeBag)
-                case .failure:
-                    print("사진 업로드 실패")
+        output.popNavi
+            .subscribe(with: self) { owner, value in
+                if value {
+                    owner.navigationController?.popViewController(animated: true)
                 }
             }
-        } catch {
-
-        }
-
+            .disposed(by: disposeBag)
     }
-}
 
+}
 
 extension PostViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
@@ -168,8 +154,10 @@ extension PostViewController: PHPickerViewControllerDelegate {
         results.forEach { photo in
             if photo.itemProvider.canLoadObject(ofClass: UIImage.self) {
                 photo.itemProvider.loadObject(ofClass: UIImage.self) { image, error in
-                    DispatchQueue.main.async {
-                        self.photoImageView.image = image as? UIImage
+                    DispatchQueue.main.async { [weak self] in
+                        guard let self else { return }
+                        photoImageView.image = image as? UIImage
+                        imageSubject.onNext(image as? UIImage)
                     }
                 }
             }
