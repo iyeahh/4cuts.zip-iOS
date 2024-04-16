@@ -122,7 +122,7 @@ final class SuggestionViewController: BaseViewController {
                 cell.profileImageView.kf.setImage(with: element.creator.profileImage.url)
                 cell.nameLabel.text = element.creator.nick
                 cell.createDateLabel.text = DateFormatterManager.shared.dateFormat(element.createdAt)
-                cell.mainImageView.kf.setImage(with: element.files.first!.url)
+                cell.mainImageView.kf.setImage(with: element.files.first?.url)
                 cell.contentLabel.text = element.content
                 cell.commentCountLabel.text = "\(element.comments!.count)"
             }

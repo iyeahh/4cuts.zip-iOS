@@ -16,7 +16,7 @@ final class PostViewController: BaseViewController {
 
     let disposeBag = DisposeBag()
     let viewModel = PostViewModel()
-    let imageSubject = PublishSubject<UIImage?>()
+    let imageSubject = PublishSubject<[UIImage]>()
 
     let photoButton = {
         let button = UIButton()
@@ -30,7 +30,7 @@ final class PostViewController: BaseViewController {
         return button
     }()
 
-    let photoImageView = {
+    let photoImageView1 = {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 12
@@ -74,7 +74,7 @@ final class PostViewController: BaseViewController {
 
     override func configureHierarchy() {
         view.addSubview(photoButton)
-        view.addSubview(photoImageView)
+        view.addSubview(photoImageView1)
         view.addSubview(photoImageView2)
         view.addSubview(contentTextView)
         view.addSubview(saveButton)
@@ -86,7 +86,7 @@ final class PostViewController: BaseViewController {
             make.size.equalTo(100)
         }
 
-        photoImageView.snp.makeConstraints { make in
+        photoImageView1.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
             make.leading.equalTo(photoButton.snp.trailing).offset(10)
             make.size.equalTo(100)
@@ -94,12 +94,12 @@ final class PostViewController: BaseViewController {
 
         photoImageView2.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
-            make.leading.equalTo(photoImageView.snp.trailing).offset(10)
+            make.leading.equalTo(photoImageView1.snp.trailing).offset(10)
             make.size.equalTo(100)
         }
 
         contentTextView.snp.makeConstraints { make in
-            make.top.equalTo(photoImageView.snp.bottom).offset(10)
+            make.top.equalTo(photoImageView1.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(10)
             make.height.equalTo(contentTextView.snp.width).dividedBy(2)
         }
@@ -112,7 +112,7 @@ final class PostViewController: BaseViewController {
     }
 
     override func bind() {
-        let textObservable = Observable.just(contentTextView.text)
+        let textObservable = Observable.just(contentTextView.text!)
 
         let contentZip = Observable.combineLatest(imageSubject, textObservable)
 
@@ -151,13 +151,19 @@ extension PostViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
 
+        let imageViewList = [photoImageView1, photoImageView2]
+        var imageList: [UIImage] = []
+        var num = 0
+
         results.forEach { photo in
             if photo.itemProvider.canLoadObject(ofClass: UIImage.self) {
                 photo.itemProvider.loadObject(ofClass: UIImage.self) { image, error in
                     DispatchQueue.main.async { [weak self] in
                         guard let self else { return }
-                        photoImageView.image = image as? UIImage
-                        imageSubject.onNext(image as? UIImage)
+                        imageViewList[num].image = image as? UIImage
+                        imageList.append(image as! UIImage)
+                        imageSubject.onNext(imageList)
+                        num += 1
                     }
                 }
             }

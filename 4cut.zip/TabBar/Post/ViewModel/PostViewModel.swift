@@ -16,7 +16,7 @@ final class PostViewModel: BaseViewModel {
 
     struct Input {
         let photoButtonTap: ControlEvent<Void>
-        let uploadButtonTap: Observable<(UIImage?, String?)>
+        let uploadButtonTap: Observable<([UIImage], String)>
     }
 
     struct Output {
@@ -32,9 +32,10 @@ final class PostViewModel: BaseViewModel {
                 do {
                     AF.upload(multipartFormData: { multipartFormData in
                         print(contentValue)
-                        if let image = contentValue.0,
-                           let convertedImage = image.jpegData(compressionQuality: 0.1) {
-                            multipartFormData.append(convertedImage, withName: "files", fileName: "test.png", mimeType: "image/png")
+                        contentValue.0.forEach { image in
+                            if let convertedImage = image.jpegData(compressionQuality: 0.1) {
+                                multipartFormData.append(convertedImage, withName: "files", fileName: "test.png", mimeType: "image/png")
+                            }
                         }
                     }, with: try Router.uploadPhoto.asURLRequest())
                     .responseDecodable(of: PhotoListModel.self) { response in
@@ -42,7 +43,7 @@ final class PostViewModel: BaseViewModel {
                         case .success(let value):
                             Observable.just(value)
                                 .flatMap { photo -> Single<Result<PostContent, NetworkError>> in
-                                    NetworkManager.shared.callRequestWithToken(router: .postContent(content: Content(content: contentValue.1!, product_id: "4cut_booth", files: photo.files)))
+                                    NetworkManager.shared.callRequestWithToken(router: .postContent(content: Content(content: contentValue.1, product_id: "4cut_booth", files: photo.files)))
                                 }
                                 .subscribe(onNext: { value in
                                     switch value {
