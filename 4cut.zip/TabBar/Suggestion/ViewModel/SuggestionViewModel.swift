@@ -20,18 +20,30 @@ final class SuggestionViewModel: BaseViewModel {
         let newButtonTap: Observable<PostCategory>
         let backgroudButtonTap: Observable<PostCategory>
         let poseButtonTap: Observable<PostCategory>
+        let cellTap: Observable<(ControlEvent<PostContent>.Element, ControlEvent<IndexPath>.Element)>
     }
 
     struct Output {
         let postList: Observable<[PostContent]>
+        let nextVCObservable: Observable<(PostContent, IndexPath)>
     }
 
     func transform(input: Input) -> Output {
+        let nextVCSubject = PublishSubject<(PostContent, IndexPath)>()
+
         callRequest(category: input.categoryTap)
         callRequest(category: input.newButtonTap)
         callRequest(category: input.poseButtonTap)
         callRequest(category: input.backgroudButtonTap)
-        return Output(postList: postList)
+
+        input.cellTap
+            .subscribe(with: self) { owner, value in
+                nextVCSubject.onNext(value)
+            }
+            .disposed(by: disposeBag)
+
+
+        return Output(postList: postList, nextVCObservable: nextVCSubject)
     }
 
     private func callRequest(category: Observable<PostCategory>) {

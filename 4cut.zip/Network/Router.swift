@@ -16,7 +16,8 @@ enum Router {
     case refresh
     case map(x: Double, y: Double)
     case uploadPhoto
-    case postContent(content: Content)
+    case postContent(content: Content?)
+    case editPost(id: String)
 }
 
 extension Router: TargetType {
@@ -26,6 +27,8 @@ extension Router: TargetType {
             return .post
         case .fetchPostContent, .refresh, .fetchShopping, .map:
             return .get
+        case .editPost:
+            return .put
         }
     }
 
@@ -35,7 +38,7 @@ extension Router: TargetType {
 
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .login, .refresh, .validPay, .uploadPhoto, .postContent:
+        case .login, .refresh, .validPay, .uploadPhoto, .postContent, .editPost:
             return nil
         case .fetchPostContent(let category):
             return [URLQueryItem(name: "product_id", value: category.productId),
@@ -59,7 +62,7 @@ extension Router: TargetType {
         case .validPay(let query):
             let encoder = JSONEncoder()
             return try? encoder.encode(query)
-        case .fetchPostContent, .refresh, .fetchShopping, .map, .uploadPhoto:
+        case .fetchPostContent, .refresh, .fetchShopping, .map, .uploadPhoto, .editPost:
             return nil
         case .postContent(let content):
             let encoder = JSONEncoder()
@@ -69,7 +72,7 @@ extension Router: TargetType {
 
     var baseURL: String {
         switch self {
-        case .login, .refresh, .fetchPostContent, .fetchShopping, .validPay, .uploadPhoto, .postContent:
+        case .login, .refresh, .fetchPostContent, .fetchShopping, .validPay, .uploadPhoto, .postContent, .editPost:
             return APIKey.baseURL + "v1"
         case .map:
             return APIKey.mapBaseURL + "v2"
@@ -90,6 +93,8 @@ extension Router: TargetType {
             return "/local/search/keyword"
         case .uploadPhoto:
             return "/posts/files"
+        case .editPost(let id):
+            return "/posts/\(id)"
         }
     }
 
@@ -100,7 +105,7 @@ extension Router: TargetType {
                 Header.contentType.rawValue: Header.json.rawValue,
                 Header.sesacKey.rawValue: APIKey.sesacKey
             ]
-        case .fetchPostContent, .fetchShopping, .postContent:
+        case .fetchPostContent, .fetchShopping, .postContent, .editPost:
             return [
                 Header.contentType.rawValue: Header.json.rawValue,
                 Header.sesacKey.rawValue: APIKey.sesacKey,

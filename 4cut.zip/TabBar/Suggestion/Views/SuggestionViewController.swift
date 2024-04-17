@@ -100,8 +100,6 @@ final class SuggestionViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
 
-
-
         let input = SuggestionViewModel.Input(
             categoryTap: Observable.just(PostCategory.new),
             newButtonTap: newButton.rx.tap
@@ -109,7 +107,7 @@ final class SuggestionViewController: BaseViewController {
             backgroudButtonTap: backgroundButton.rx.tap
                 .withLatestFrom(Observable.just(PostCategory.background)),
             poseButtonTap: poseButton.rx.tap
-                .withLatestFrom(Observable.just(PostCategory.pose))
+                .withLatestFrom(Observable.just(PostCategory.pose)), cellTap: Observable.zip(tableView.rx.modelSelected(PostContent.self), tableView.rx.itemSelected)
         )
 
         let output = viewModel.transform(input: input)
@@ -125,6 +123,14 @@ final class SuggestionViewController: BaseViewController {
                 cell.mainImageView.kf.setImage(with: element.files.first?.url)
                 cell.contentLabel.text = element.content
                 cell.commentCountLabel.text = "\(element.comments!.count)"
+            }
+            .disposed(by: disposeBag)
+
+        output.nextVCObservable
+            .subscribe(with: self) { owner, value in
+                let vc = PostViewController()
+                vc.postContent = value.0
+                owner.navigationController?.pushViewController(vc, animated: true)
             }
             .disposed(by: disposeBag)
     }

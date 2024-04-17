@@ -11,12 +11,15 @@ import RxSwift
 import RxCocoa
 import PhotosUI
 import Alamofire
+import Kingfisher
 
 final class PostViewController: BaseViewController {
 
     let disposeBag = DisposeBag()
     let viewModel = PostViewModel()
     let imageSubject = PublishSubject<[UIImage]>()
+
+    var postContent: PostContent?
 
     let photoButton = {
         let button = UIButton()
@@ -68,6 +71,19 @@ final class PostViewController: BaseViewController {
         return button
     }()
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        guard let postContent else { return }
+        KingfisherManager.shared.setHeaders()
+
+        photoImageView1.kf.setImage(with: postContent.files[0].url)
+        contentTextView.text = postContent.content
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+         self.view.endEditing(true)
+   }
+
     override func configureView() {
         view.backgroundColor = .white
     }
@@ -112,14 +128,14 @@ final class PostViewController: BaseViewController {
     }
 
     override func bind() {
-        let textObservable = Observable.just(contentTextView.text!)
-
-        let contentZip = Observable.combineLatest(imageSubject, textObservable)
+        let textObservable = contentTextView.rx.text.orEmpty
+        let isEditObservable = Observable.just(postContent?.post_id)
+        let contentZip = Observable.combineLatest(imageSubject, textObservable, isEditObservable)
 
         let input = PostViewModel.Input(
             photoButtonTap: photoButton.rx.tap,
             uploadButtonTap: saveButton.rx.tap
-            .withLatestFrom(contentZip)
+                .withLatestFrom(contentZip)
         )
 
         let output = viewModel.transform(input: input)
@@ -148,6 +164,7 @@ final class PostViewController: BaseViewController {
 }
 
 extension PostViewController: PHPickerViewControllerDelegate {
+
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
 
@@ -169,4 +186,5 @@ extension PostViewController: PHPickerViewControllerDelegate {
             }
         }
     }
+
 }
