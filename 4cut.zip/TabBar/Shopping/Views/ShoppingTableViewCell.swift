@@ -19,7 +19,12 @@ final class ShoppingTableViewCell: BaseTableViewCell {
 
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
 
-    let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
 
     private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()

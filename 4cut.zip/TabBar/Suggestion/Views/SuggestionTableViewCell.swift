@@ -7,8 +7,12 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
 final class SuggestionTableViewCell: BaseTableViewCell {
+    var disposeBag = DisposeBag()
+
     let profileImageView = UIImageView()
 
     let nameLabel = {
@@ -73,6 +77,11 @@ final class SuggestionTableViewCell: BaseTableViewCell {
         label.font = .systemFont(ofSize: 11)
         return label
     }()
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
 
     override func layoutIfNeeded() {
         super.layoutIfNeeded()

@@ -48,7 +48,12 @@ final class ShoppingCollectionViewCell: BaseCollectionViewCell {
         return button
     }()
 
-    let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
 
     override func configureHierarchy() {
         contentView.addSubview(mainImageView)

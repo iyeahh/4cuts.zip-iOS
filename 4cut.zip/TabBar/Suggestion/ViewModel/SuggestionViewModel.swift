@@ -13,6 +13,7 @@ final class SuggestionViewModel: BaseViewModel {
 
     let disposeBag = DisposeBag()
 
+    var postContentList: [PostContent] = []
     let postList = PublishSubject<[PostContent]>()
 
     struct Input {
@@ -21,6 +22,7 @@ final class SuggestionViewModel: BaseViewModel {
         let backgroudButtonTap: Observable<PostCategory>
         let poseButtonTap: Observable<PostCategory>
         let cellTap: Observable<(ControlEvent<PostContent>.Element, ControlEvent<IndexPath>.Element)>
+        let followButtonTap: Observable<String>
     }
 
     struct Output {
@@ -42,6 +44,21 @@ final class SuggestionViewModel: BaseViewModel {
             }
             .disposed(by: disposeBag)
 
+        input.followButtonTap
+            .flatMap { postId -> Single<Result<PostContentModel, NetworkError>> in
+                NetworkManager.shared.callRequestWithToken(router: .removePost(id: postId))
+            }
+            .subscribe(onNext: { value in
+
+                switch value {
+                case .success:
+                    print("삭제 성공")
+                case .failure:
+                    print("추천글 받아오기 실패")
+                }
+            })
+            .disposed(by: disposeBag)
+
 
         return Output(postList: postList, nextVCObservable: nextVCSubject)
     }
@@ -56,7 +73,8 @@ final class SuggestionViewModel: BaseViewModel {
 
                 switch value {
                 case .success(let value):
-                    postList.onNext(value.data)
+                    postContentList = value.data
+                    postList.onNext(postContentList)
                 case .failure:
                     print("추천글 받아오기 실패")
                 }

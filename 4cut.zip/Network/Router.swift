@@ -18,6 +18,7 @@ enum Router {
     case uploadPhoto
     case postContent(content: Content?)
     case editPost(id: String)
+    case removePost(id: String)
 }
 
 extension Router: TargetType {
@@ -29,6 +30,8 @@ extension Router: TargetType {
             return .get
         case .editPost:
             return .put
+        case .removePost:
+            return .delete
         }
     }
 
@@ -38,7 +41,7 @@ extension Router: TargetType {
 
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .login, .refresh, .validPay, .uploadPhoto, .postContent, .editPost:
+        case .login, .refresh, .validPay, .uploadPhoto, .postContent, .editPost, .removePost:
             return nil
         case .fetchPostContent(let category):
             return [URLQueryItem(name: "product_id", value: category.productId),
@@ -62,7 +65,7 @@ extension Router: TargetType {
         case .validPay(let query):
             let encoder = JSONEncoder()
             return try? encoder.encode(query)
-        case .fetchPostContent, .refresh, .fetchShopping, .map, .uploadPhoto, .editPost:
+        case .fetchPostContent, .refresh, .fetchShopping, .map, .uploadPhoto, .editPost, .removePost:
             return nil
         case .postContent(let content):
             let encoder = JSONEncoder()
@@ -72,7 +75,7 @@ extension Router: TargetType {
 
     var baseURL: String {
         switch self {
-        case .login, .refresh, .fetchPostContent, .fetchShopping, .validPay, .uploadPhoto, .postContent, .editPost:
+        case .login, .refresh, .fetchPostContent, .fetchShopping, .validPay, .uploadPhoto, .postContent, .editPost, .removePost:
             return APIKey.baseURL + "v1"
         case .map:
             return APIKey.mapBaseURL + "v2"
@@ -93,7 +96,7 @@ extension Router: TargetType {
             return "/local/search/keyword"
         case .uploadPhoto:
             return "/posts/files"
-        case .editPost(let id):
+        case .editPost(let id), .removePost(let id):
             return "/posts/\(id)"
         }
     }
@@ -125,6 +128,11 @@ extension Router: TargetType {
         case .uploadPhoto:
             return [
                 Header.contentType.rawValue: Header.multipart.rawValue,
+                Header.sesacKey.rawValue: APIKey.sesacKey,
+                Header.authorization.rawValue: UserDefaultsManager.token
+            ]
+        case .removePost:
+            return [
                 Header.sesacKey.rawValue: APIKey.sesacKey,
                 Header.authorization.rawValue: UserDefaultsManager.token
             ]

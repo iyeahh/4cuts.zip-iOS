@@ -100,6 +100,8 @@ final class SuggestionViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
 
+        let followButtonTap = PublishSubject<String>()
+
         let input = SuggestionViewModel.Input(
             categoryTap: Observable.just(PostCategory.new),
             newButtonTap: newButton.rx.tap
@@ -107,15 +109,14 @@ final class SuggestionViewController: BaseViewController {
             backgroudButtonTap: backgroundButton.rx.tap
                 .withLatestFrom(Observable.just(PostCategory.background)),
             poseButtonTap: poseButton.rx.tap
-                .withLatestFrom(Observable.just(PostCategory.pose)), cellTap: Observable.zip(tableView.rx.modelSelected(PostContent.self), tableView.rx.itemSelected)
+                .withLatestFrom(Observable.just(PostCategory.pose)), cellTap: Observable.zip(tableView.rx.modelSelected(PostContent.self), tableView.rx.itemSelected), followButtonTap: followButtonTap
         )
 
         let output = viewModel.transform(input: input)
+        var postId = ""
 
         output.postList
             .bind(to: tableView.rx.items(cellIdentifier: SuggestionTableViewCell.identifier, cellType: SuggestionTableViewCell.self)) { (row, element, cell) in
-
-                KingfisherManager.shared.setHeaders()
 
                 cell.profileImageView.kf.setImage(with: element.creator.profileImage.url)
                 cell.nameLabel.text = element.creator.nick
@@ -123,6 +124,14 @@ final class SuggestionViewController: BaseViewController {
                 cell.mainImageView.kf.setImage(with: element.files.first?.url)
                 cell.contentLabel.text = element.content
                 cell.commentCountLabel.text = "\(element.comments!.count)"
+                postId = element.post_id
+
+                cell.followButton.rx.tap
+                    .withLatestFrom(Observable.just(postId))
+                    .subscribe(with: self) { owner, value in
+                        followButtonTap.onNext(value)
+                    }
+                    .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
 
