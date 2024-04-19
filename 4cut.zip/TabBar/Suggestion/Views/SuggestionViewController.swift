@@ -130,6 +130,7 @@ final class SuggestionViewController: BaseViewController {
                     .withLatestFrom(Observable.just(postId))
                     .subscribe(with: self) { owner, value in
                         followButtonTap.onNext(value)
+                        owner.makeToast(title: "게시글 삭제", message: "게시글이 삭제되었어요!")
                     }
                     .disposed(by: cell.disposeBag)
             }

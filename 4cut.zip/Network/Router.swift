@@ -16,8 +16,8 @@ enum Router {
     case refresh
     case map(x: Double, y: Double)
     case uploadPhoto
-    case postContent(content: Content?)
-    case editPost(id: String)
+    case postContent(content: Content)
+    case editPost(id: String, content: Content)
     case removePost(id: String)
 }
 
@@ -65,9 +65,9 @@ extension Router: TargetType {
         case .validPay(let query):
             let encoder = JSONEncoder()
             return try? encoder.encode(query)
-        case .fetchPostContent, .refresh, .fetchShopping, .map, .uploadPhoto, .editPost, .removePost:
+        case .fetchPostContent, .refresh, .fetchShopping, .map, .uploadPhoto, .removePost:
             return nil
-        case .postContent(let content):
+        case .postContent(let content), .editPost( _, let content):
             let encoder = JSONEncoder()
             return try? encoder.encode(content)
         }
@@ -96,7 +96,7 @@ extension Router: TargetType {
             return "/local/search/keyword"
         case .uploadPhoto:
             return "/posts/files"
-        case .editPost(let id), .removePost(let id):
+        case .editPost(let id, _), .removePost(let id):
             return "/posts/\(id)"
         }
     }

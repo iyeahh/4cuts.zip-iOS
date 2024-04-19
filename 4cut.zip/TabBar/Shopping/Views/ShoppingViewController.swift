@@ -103,7 +103,7 @@ final class ShoppingViewController: BaseViewController {
                     NetworkManager.shared.validPayment(impUid: paymentResult!.imp_uid!, postId: payment.1) { value in
                         switch value {
                         case .success(let success):
-                            self.view.makeToast("결제가 성공했습니다")
+                            owner.makeToast(title: "결제", message: "결제가 완료되었어요!")
                         case .failure(let failure):
                             self.view.makeToast("결제가 실패했습니다")
                         }
