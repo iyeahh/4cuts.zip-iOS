@@ -16,6 +16,7 @@ final class MapViewController: BaseViewController {
     let disposeBag = DisposeBag()
     let viewModel = MapViewModel()
     let locationSubject = PublishSubject<(Double, Double)>()
+    let defaultLocation = PublishSubject<(Double, Double)>()
 
     let locationManager = CLLocationManager()
     lazy var naverMapView = NMFNaverMapView(frame: view.frame)
@@ -29,7 +30,8 @@ final class MapViewController: BaseViewController {
     }
 
     override func bind() {
-        let input = MapViewModel.Input(locationSubject: locationSubject)
+        let input = MapViewModel.Input(locationSubject: locationSubject,
+                                       defaultSubject: defaultLocation)
 
         let output = viewModel.transform(input: input)
 
@@ -66,11 +68,16 @@ final class MapViewController: BaseViewController {
     }
 
     func checkDeviceLocationAutorization() {
-
-        if CLLocationManager.locationServicesEnabled() {
-            checkCurrentLocationAuthorization()
-        } else {
-            print("위치 서비스가 꺼져 있어서, 위치 권한 요청을 할 수 없어요")
+        DispatchQueue.global().async { [weak self] in
+            guard let self else { return }
+            if CLLocationManager.locationServicesEnabled() {
+                checkCurrentLocationAuthorization()
+            } else {
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    makeToast(title: "위치 서비스", message: "위치 서비스가 꺼져 있어서\n위치 권한을 요청할 수 없어요.")
+                }
+            }
         }
     }
 
@@ -88,7 +95,11 @@ final class MapViewController: BaseViewController {
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.requestWhenInUseAuthorization()
         case .denied:
-            view.makeToast("아이폰 설정앱에서 위치 서비스를 켜주세요.")
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                makeToast(title: "위치 서비스", message: "아이폰 설정에서 앱의 위치 서비스를 켜주세요.")
+            }
+            defaultLocation.onNext(Constant.Default.location)
         case .authorizedWhenInUse:
             locationManager.startUpdatingLocation()
         default:

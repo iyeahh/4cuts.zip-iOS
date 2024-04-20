@@ -24,12 +24,6 @@ final class ShoppingViewController: BaseViewController {
         return tableView
     }()
 
-    lazy var webView = {
-        let view = WKWebView()
-        view.backgroundColor = .white
-        return view
-    }()
-
     let viewModel = ShoppingViewModel()
     let disposeBag = DisposeBag()
 

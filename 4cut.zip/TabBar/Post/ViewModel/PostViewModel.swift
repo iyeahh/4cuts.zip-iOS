@@ -69,7 +69,4 @@ final class PostViewModel: BaseViewModel {
         return Output(photoButtonTap: input.photoButtonTap, popNavi: popNavi)
     }
 
-    private func post(content: String, imageList: [UIImage], id: String?) {
-    }
-
 }

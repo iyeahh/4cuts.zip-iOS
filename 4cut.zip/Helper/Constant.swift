@@ -19,4 +19,8 @@ enum Constant {
         static let secondaryPink = UIColor(hex: 0xFEACC4)
         static let secondaryLightPink = UIColor(hex: 0xFEDADF)
     }
+
+    enum Default {
+        static let location = (37.358647, 127.105207)
+    }
 }

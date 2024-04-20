@@ -13,9 +13,11 @@ final class MapViewModel: BaseViewModel {
 
     let disposeBag = DisposeBag()
     let markList = [PhotoBooth]()
+    let markListSubject = PublishSubject<[PhotoBooth]>()
 
     struct Input {
         let locationSubject: PublishSubject<(Double, Double)>
+        let defaultSubject: PublishSubject<(Double, Double)>
     }
 
     struct Output {
@@ -24,23 +26,26 @@ final class MapViewModel: BaseViewModel {
     }
 
     func transform(input: Input) -> Output {
-        let markList = PublishSubject<[PhotoBooth]>()
+        callRequest(subject: input.locationSubject)
+        callRequest(subject: input.defaultSubject)
 
-        input.locationSubject
-            .flatMap { location -> Single<Result<MapModel, NetworkError>> in
-                NetworkManager.shared.postCallRequestWithoutToken(router: .map(x: location.1, y: location.0))
-            }
-            .subscribe(onNext: { value in
-                switch value {
-                case .success(let value):
-                    markList.onNext(value.documents)
-                case .failure:
-                    print("맵 받아오기 실패")
-                }
-            })
-            .disposed(by: disposeBag)
-
-        return Output(markList: markList, locationSubject: input.locationSubject)
+        return Output(markList: markListSubject, locationSubject: input.locationSubject)
     }
-    
+
+    func callRequest(subject: PublishSubject<(Double, Double)>) {
+        subject
+        .flatMap { location -> Single<Result<MapModel, NetworkError>> in
+            NetworkManager.shared.postCallRequestWithoutToken(router: .map(x: location.1, y: location.0))
+        }
+        .subscribe(with: self, onNext: { owner, value in
+            switch value {
+            case .success(let value):
+                owner.markListSubject.onNext(value.documents)
+            case .failure:
+                print("맵 받아오기 실패")
+            }
+        })
+        .disposed(by: disposeBag)
+    }
+
 }
