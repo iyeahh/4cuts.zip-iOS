@@ -52,38 +52,30 @@ final class ShoppingViewController: BaseViewController {
         output.shoppingList
             .bind(to: tableView.rx.items(cellIdentifier: ShoppingTableViewCell.identifier, cellType: ShoppingTableViewCell.self)) { [weak self] (row, element, cell) in
 
-                guard let shoppingCell = cell as? ShoppingTableViewCell,
-                let self else {
-                    return
-                }
+                guard let self else { return }
 
                 let title = getTitle(for: row)
-                shoppingCell.categoryLabel.text = title
+                cell.categoryLabel.text = title
 
                 cell.collectionView.register(ShoppingCollectionViewCell.self, forCellWithReuseIdentifier: ShoppingCollectionViewCell.identifier)
 
                 element
                     .bind(to: cell.collectionView.rx.items(cellIdentifier: ShoppingCollectionViewCell.identifier, cellType: ShoppingCollectionViewCell.self)) { (row, item, cell) in
 
-                        guard let collectionViewCell = cell as? ShoppingCollectionViewCell else {
-                            return
-                        }
-
                         KingfisherManager.shared.setHeaders()
 
-                        collectionViewCell.mainImageView.kf.setImage(with: item.files.first!.url)
-                        collectionViewCell.productTitleLabel.text = item.title
-                        collectionViewCell.priceLabel.text = "\(item.price!.formatted())원"
+                        cell.mainImageView.kf.setImage(with: item.files.first!.url)
+                        cell.productTitleLabel.text = item.title
+                        cell.priceLabel.text = "\(item.price!.formatted())원"
 
                         let observableProductId = Observable<(String, Int?)>.just((item.post_id, item.price))
 
-                        
-                        collectionViewCell.getButton.rx.tap
+                        cell.getButton.rx.tap
                             .withLatestFrom(observableProductId)
-                            .subscribe(with: self, onNext: { owner, value in
+                            .subscribe(onNext: { value in
                                 payTap.onNext(value)
                             })
-                            .disposed(by: self.disposeBag)
+                            .disposed(by: cell.disposeBag)
                     }
                     .disposed(by: cell.disposeBag)
             }
