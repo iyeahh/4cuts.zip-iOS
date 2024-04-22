@@ -10,7 +10,7 @@ import Alamofire
 
 enum Router {
     case login(query: LoginQuery)
-    case fetchPostContent(category: PostCategory)
+    case fetchPostContent(category: PostCategory, next: String)
     case fetchShopping(query: String)
     case validPay(query: PaymentValidation)
     case refresh
@@ -43,9 +43,10 @@ extension Router: TargetType {
         switch self {
         case .login, .refresh, .validPay, .uploadPhoto, .postContent, .editPost, .removePost:
             return nil
-        case .fetchPostContent(let category):
+        case .fetchPostContent(let category, let next):
             return [URLQueryItem(name: "product_id", value: category.productId),
-                    URLQueryItem(name: "limit", value: "10")]
+                    URLQueryItem(name: "limit", value: "15"),
+                    URLQueryItem(name: "next", value: next)]
         case .fetchShopping(let query):
             return [URLQueryItem(name: "product_id", value: query),
                     URLQueryItem(name: "limit", value: "10")]

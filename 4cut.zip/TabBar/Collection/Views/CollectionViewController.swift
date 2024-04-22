@@ -29,12 +29,17 @@ final class CollectionViewController: BaseViewController {
         let startTriggerSub = BehaviorRelay<PostCategory> (value: .photo)
 
         let input = CollectionViewModel.Input(
-            startTriggerSub: startTriggerSub
+            startTriggerSub: startTriggerSub,
+            isNextCursor: collectionView.rx.prefetchItems
         )
         
         let output = viewModel.transform(input: input)
 
-        collectionViewRxSetting(output.successData)
+        output.successData
+            .bind(with: self) { owner, models in
+                owner.makeSnapshot(models: models)
+            }
+            .disposed(by: disposeBag)
     }
 
     private func collectionViewRxSetting(_ models: BehaviorRelay<[PhotoModel]>) {
@@ -137,8 +142,8 @@ final class CollectionViewController: BaseViewController {
         snapshot.deleteAllItems()
         snapshot.appendSections([0])
 
-        snapshot.appendItems(models.map{$0}, toSection: 0)
-        dataSource?.apply(snapshot, animatingDifferences: false)
+        snapshot.appendItems(models, toSection: 0)
+        dataSource?.apply(snapshot, animatingDifferences: true)
     }
 
     private func createLayout() -> UICollectionViewCompositionalLayout {

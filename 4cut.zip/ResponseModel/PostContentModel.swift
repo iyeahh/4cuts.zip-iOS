@@ -9,6 +9,7 @@ import Foundation
 
 struct PostContentModel: Decodable {
     let data: [PostContent]
+    let next_cursor: String
 }
 
 struct PostContent: Decodable {

@@ -45,7 +45,7 @@ final class PostViewModel: BaseViewModel {
                                     if let id = contentValue.2 {
                                         NetworkManager.shared.callRequestWithToken(router: .editPost(id: id, content: Content(content: contentValue.1, product_id: "4cut_booth", files: photo.files)))
                                     } else {
-                                        NetworkManager.shared.callRequestWithToken(router: .postContent(content: Content(content: contentValue.1, product_id: "4cut_booth", files: photo.files)))
+                                        NetworkManager.shared.callRequestWithToken(router: .postContent(content: Content(content: contentValue.1, product_id: "4cut_photo", files: photo.files)))
                                     }
                                 }
                                 .subscribe(onNext: { value in
