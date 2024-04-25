@@ -38,53 +38,56 @@
     - adapt 메서드에 request Header에 갱신된 토큰의 정보를 넣어주고 retry 메서드를 실행시켜야 정상적으로 작동함
 - 리프레시 토큰까지 만료되면 저장되어 있던 모든 정보를 삭제하고, 로그인 화면을 띄워
     - 정상적인 로그인이 가능하다면 토큰과, 리프레시 토큰을 발급받을 수 있도록 대응
+ <img width="1000" alt="스크린샷 2024-09-17 오후 1 25 50" src="https://github.com/user-attachments/assets/e693979d-4565-4cb0-9653-087beddffc4c">
+
+
+------
+### ❓ 토픽
+**PG 결제 플로우와 영수증 검증**
+
+### ❕ 해결 방법
+💡 **문제상황:** **네컷 사진과 관련된 상품을 판매하고 싶은데 어떻게 결제 시스템을 적용시키고 실제 결제가 일어났는지 확인할 수 있을까?**
+
+- 통합 결제 API인 포트원을 활용하여 결제대행사(PG) 연결
+    - 결제 버튼을 탭했을 때 결제 정보 입력
     
+    ```swift
+    input.payTap
+            .subscribe(with: self) { owner, value in
+                let payment = IamportPayment(
+                    pg: PG.html5_inicis.makePgRawName(pgId: "INIpayTest"),
+                    merchant_uid: "ios_\(APIKey.sesacKey)_\(Int(Date().timeIntervalSince1970))",
+                    amount: "\(value.1)").then {
+                        $0.pay_method = PayMethod.card.rawValue
+                        $0.name = "4cut.zip"
+                        $0.buyer_name = "양보라"
+                        $0.app_scheme = "sesac"
+                    }
+                outputPayment.onNext((payment, value.0))
+            }
+            .disposed(by: disposeBag)
+    ```
+    
+- 실제 결제가 되었는지 확인하기 위해
+    - 결제 정보를 가지고 영수증 검증을 통해 실제 결제 내역이 있는지 확인 후
+    - 유저에게 토스트 메시지를 띄워 주고 로직을 처리
 ```swift
-final class NetworkRequestInterceptor: RequestInterceptor {
-
-    func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
-
-        // 갱신된 토큰 정보 넣어준 request
-        var urlRequest = urlRequest
-        urlRequest.setValue(Header.json.rawValue, forHTTPHeaderField: Header.contentType.rawValue)
-        urlRequest.setValue(APIKey.sesacKey, forHTTPHeaderField: Header.sesacKey.rawValue)
-        urlRequest.setValue(UserDefaultsManager.token, forHTTPHeaderField: Header.authorization.rawValue)
-
-        completion(.success(urlRequest))
-    }
-
-    func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
-        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 419 else {
-            completion(.doNotRetryWithError(error))
-            return
-        }
-
-        do {
-            let request = try Router.refresh.asURLRequest()
-
-            AF.request(request)
-                .responseDecodable(of: RefreshModel.self) { response in
-                    // 리프레시 토큰 만료 시 로그인 화면으로 이동하고 저장된 정보 모두 삭제
-                    if response.response?.statusCode == 418 {
-                        Coordinator.moveRoot(vc: LoginViewController())
-                        UserDefaultsManager.removeAll()
-                    } else {
-                        switch response.result {
+output.payment
+            .subscribe(with: self) { owner, payment in
+                Iamport.shared.payment(viewController: owner,
+                                       userCode: "imp57573124",
+                                       payment: payment.0) { paymentResult in
+                    NetworkManager.shared.validPayment(impUid: paymentResult.imp_uid, postId: payment.1) { value in
+                        switch value {
                         case .success(let success):
-                            UserDefaultsManager.token = success.accessToken
-                            completion(.retry)
-                        case .failure(let error):
-                            Coordinator.moveRoot(vc: LoginViewController())
-                            completion(.doNotRetryWithError(error))
+                            owner.makeToast(title: "결제", message: "결제가 완료되었어요!")
+                        case .failure(let failure):
+                            self.view.makeToast("결제가 실패했습니다")
                         }
                     }
                 }
-        } catch {
-            Coordinator.moveRoot(vc: LoginViewController())
-            completion(.doNotRetryWithError(error))
-        }
-    }
-}
+            }
+            .disposed(by: disposeBag)
 ```
 ---
        
@@ -97,57 +100,9 @@ final class NetworkRequestInterceptor: RequestInterceptor {
 
 - 어떠한 이유로 현재 위치가 뜨지 않는지에 대한 자세한 이유를 토스트 메세지로 띄워주고
 - 디폴트 주소를 설정하여 지도를 띄워줌
+<img width="1000" alt="스크린샷 2024-09-17 오후 1 25 58" src="https://github.com/user-attachments/assets/23319c53-5390-42a7-8d49-c3d617ba73c7">
 
-<img src="https://github.com/user-attachments/assets/ead3a13e-e92e-475e-afc8-e0147f1cac96" width="300" height="600"/>
 
-```swift
-     func checkDeviceLocationAutorization() {
-        DispatchQueue.global().async { [weak self] in
-            guard let self else { return }
-            if CLLocationManager.locationServicesEnabled() {
-                checkCurrentLocationAuthorization()
-            } else {
-                DispatchQueue.main.async { [weak self] in
-                    guard let self else { return }
-                    makeToast(title: "위치 서비스", message: "위치 서비스가 꺼져 있어서\n위치 권한을 요청할 수 없어요.")
-                }
-            }
-        }
-    }
-
-    func checkCurrentLocationAuthorization() {
-        var status: CLAuthorizationStatus
-
-        if #available(iOS 14.0, *) {
-            status = locationManager.authorizationStatus
-        } else {
-            status = CLLocationManager.authorizationStatus()
-        }
-
-        switch status {
-        case .notDetermined:
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.requestWhenInUseAuthorization()
-        case .denied:
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                makeToast(title: "위치 서비스", message: "아이폰 설정에서 앱의 위치 서비스를 켜주세요.")
-            }
-            defaultLocation.onNext(Constant.Default.location)
-        case .authorizedWhenInUse:
-            locationManager.startUpdatingLocation()
-        default:
-            print(status)
-        }
-    }
-```
-- 앱 사용 도중 위치 권한이 달라지는 것을 감지하여
-    - 감지한 순간 다시 한 번 권한을 확인하는 메서드 실행
-```swift
-func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        checkDeviceLocationAutorization()
-    }
-```
 ---
 ### ❓ 토픽
 **Create와 Update를 한 메서드에서 처리하기**
@@ -204,54 +159,6 @@ input.uploadButtonTap
                     failNetworking.onNext(true)
                 }
 
-            }
-            .disposed(by: disposeBag)
-```
----
-### ❓ 토픽
-**PG 결제 플로우와 영수증 검증**
-
-### ❕ 해결 방법
-💡 **문제상황:** **네컷 사진과 관련된 상품을 판매하고 싶은데 어떻게 결제 시스템을 적용시키고 실제 결제가 일어났는지 확인할 수 있을까?**
-
-- 통합 결제 API인 포트원을 활용하여 결제대행사(PG) 연결
-    - 결제 버튼을 탭했을 때 결제 정보 입력
-    
-    ```swift
-    input.payTap
-            .subscribe(with: self) { owner, value in
-                let payment = IamportPayment(
-                    pg: PG.html5_inicis.makePgRawName(pgId: "INIpayTest"),
-                    merchant_uid: "ios_\(APIKey.sesacKey)_\(Int(Date().timeIntervalSince1970))",
-                    amount: "\(value.1)").then {
-                        $0.pay_method = PayMethod.card.rawValue
-                        $0.name = "4cut.zip"
-                        $0.buyer_name = "양보라"
-                        $0.app_scheme = "sesac"
-                    }
-                outputPayment.onNext((payment, value.0))
-            }
-            .disposed(by: disposeBag)
-    ```
-    
-- 실제 결제가 되었는지 확인하기 위해
-    - 결제 정보를 가지고 영수증 검증을 통해 실제 결제 내역이 있는지 확인 후
-    - 유저에게 토스트 메시지를 띄워 주고 로직을 처리
-```swift
-output.payment
-            .subscribe(with: self) { owner, payment in
-                Iamport.shared.payment(viewController: owner,
-                                       userCode: "imp57573124",
-                                       payment: payment.0) { paymentResult in
-                    NetworkManager.shared.validPayment(impUid: paymentResult.imp_uid, postId: payment.1) { value in
-                        switch value {
-                        case .success(let success):
-                            owner.makeToast(title: "결제", message: "결제가 완료되었어요!")
-                        case .failure(let failure):
-                            self.view.makeToast("결제가 실패했습니다")
-                        }
-                    }
-                }
             }
             .disposed(by: disposeBag)
 ```
